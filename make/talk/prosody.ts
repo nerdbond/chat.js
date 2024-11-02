@@ -10,6 +10,627 @@ import {
   VARIANT_MARKS,
 } from '.'
 
+const NEW_IF_NOT_LAST = {
+  $new: 'if_not_last',
+  $last: 'keep',
+}
+
+const PUSH = {
+  $push: true,
+}
+
+const PUSH_END = {
+  $push: true,
+  $new: true,
+}
+
+const NEW = {
+  $new: true,
+}
+
+const RISE = {
+  m: {
+    // new all the subsequent consonants
+    m: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+  },
+  n: {
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+  },
+  N: {
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+  },
+  q: {
+    q: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+  },
+  g: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    H: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  d: {
+    G: { ...PUSH },
+    d: { ...PUSH },
+    h: { ...PUSH },
+    z: { ...PUSH },
+    Z: { ...PUSH },
+    j: { ...PUSH },
+    J: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  b: {
+    b: { ...PUSH },
+    G: { ...PUSH },
+    z: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  p: {
+    G: { ...PUSH },
+    p: { ...PUSH },
+    s: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  t: {
+    G: { ...PUSH },
+    t: { ...PUSH },
+    T: { ...PUSH },
+    s: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  T: {
+    G: { ...PUSH },
+    t: { ...PUSH },
+    T: { ...PUSH },
+    s: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  k: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    H: { ...PUSH },
+    x: { ...PUSH },
+    s: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  K: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    H: { ...PUSH },
+    x: { ...PUSH },
+    s: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  h: {
+    h: { ...PUSH },
+    H: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  H: {
+    h: { ...PUSH },
+    H: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  s: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    q: { ...PUSH },
+    g: { ...PUSH },
+    G: { ...PUSH },
+    d: { ...PUSH },
+    b: { ...PUSH },
+    p: { ...PUSH },
+    t: { ...PUSH },
+    T: { ...PUSH },
+    k: { ...PUSH },
+    K: { ...PUSH },
+    h: { ...PUSH },
+    H: { ...PUSH },
+    s: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  S: {
+    t: { ...PUSH },
+    T: { ...PUSH },
+    k: { ...PUSH },
+    K: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+  },
+  f: {
+    G: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  F: {
+    G: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  V: {
+    G: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  v: {
+    G: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  z: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    s: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    z: { ...PUSH },
+    Z: { ...PUSH },
+    j: { ...PUSH },
+    J: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  Z: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    s: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    z: { ...PUSH },
+    Z: { ...PUSH },
+    j: { ...PUSH },
+    J: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  j: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    j: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  J: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    J: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  x: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    x: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  X: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    G: { ...PUSH },
+    h: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    X: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  c: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    c: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  C: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    C: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  y: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    y: { ...PUSH },
+  },
+  W: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+  },
+  w: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+  },
+  Q: {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    q: { ...PUSH },
+    g: { ...PUSH },
+    G: { ...PUSH },
+    d: { ...PUSH },
+    b: { ...PUSH },
+    p: { ...PUSH },
+    t: { ...PUSH },
+    T: { ...PUSH },
+    k: { ...PUSH },
+    K: { ...PUSH },
+    h: { ...PUSH },
+    H: { ...PUSH },
+    s: { ...PUSH },
+    S: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    z: { ...PUSH },
+    Z: { ...PUSH },
+    j: { ...PUSH },
+    J: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    c: { ...PUSH },
+    C: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    Q: { ...PUSH },
+    "'": { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  "'": {
+    m: { ...PUSH },
+    n: { ...PUSH },
+    N: { ...PUSH },
+    q: { ...PUSH },
+    g: { ...PUSH },
+    G: { ...PUSH },
+    d: { ...PUSH },
+    b: { ...PUSH },
+    p: { ...PUSH },
+    t: { ...PUSH },
+    T: { ...PUSH },
+    k: { ...PUSH },
+    K: { ...PUSH },
+    h: { ...PUSH },
+    H: { ...PUSH },
+    s: { ...PUSH },
+    S: { ...PUSH },
+    f: { ...PUSH },
+    F: { ...PUSH },
+    V: { ...PUSH },
+    v: { ...PUSH },
+    z: { ...PUSH },
+    Z: { ...PUSH },
+    j: { ...PUSH },
+    J: { ...PUSH },
+    x: { ...PUSH },
+    X: { ...PUSH },
+    c: { ...PUSH },
+    C: { ...PUSH },
+    y: { ...PUSH },
+    W: { ...PUSH },
+    w: { ...PUSH },
+    Q: { ...PUSH },
+    "'": { ...PUSH },
+    l: { ...PUSH },
+    L: { ...PUSH },
+    r: { ...PUSH },
+    R: { ...PUSH },
+  },
+  l: {
+    h: { ...PUSH },
+    y: { ...PUSH_END },
+  },
+  L: {
+    h: { ...PUSH },
+    y: { ...PUSH_END },
+  },
+  r: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+  },
+  R: {
+    G: { ...PUSH },
+    h: { ...PUSH },
+  },
+}
+
+const FALL = {
+  m: {
+    m: {
+      ...NEW_IF_NOT_LAST,
+    },
+    n: {
+      ...NEW_IF_NOT_LAST,
+    },
+    N: {
+      ...NEW_IF_NOT_LAST,
+    },
+    q: {
+      ...NEW_IF_NOT_LAST,
+    },
+    g: {
+      ...NEW_IF_NOT_LAST,
+    },
+    d: {
+      ...NEW_IF_NOT_LAST,
+    },
+    b: {},
+    p: {},
+    t: {},
+    T: {},
+    k: {},
+    K: {},
+    h: {},
+    H: {},
+    s: {},
+    S: {},
+    f: {},
+    F: {},
+    V: {},
+    v: {},
+    z: {},
+    Z: {},
+    j: {},
+    J: {},
+    x: {},
+    X: {},
+    c: {},
+    C: {},
+    y: {},
+    W: {},
+    w: {},
+    Q: {},
+    "'": {},
+    l: {},
+    L: {},
+    r: {},
+    R: {},
+  },
+  n: {},
+  N: {},
+  q: {},
+  g: {},
+  d: {},
+  b: {},
+  p: {},
+  t: {},
+  T: {},
+  k: {},
+  K: {},
+  h: {},
+  H: {},
+  s: {},
+  S: {},
+  f: {},
+  F: {},
+  V: {},
+  v: {},
+  z: {},
+  Z: {},
+  j: {},
+  J: {},
+  x: {},
+  X: {},
+  c: {},
+  C: {},
+  y: {},
+  W: {},
+  w: {},
+  Q: {},
+  "'": {},
+  l: {},
+  L: {},
+  r: {},
+  R: {},
+}
+
 type Mark = {
   aspiration?: boolean
   click?: boolean
@@ -109,7 +730,6 @@ const MARK: Record<string, Mark> = {
   x: { type: 'consonant', value: 'x' },
   X: { type: 'consonant', value: 'X' },
   c: { type: 'consonant', value: 'c' },
-  'C~': { type: 'consonant', value: 'C~' },
   C: { type: 'consonant', value: 'C' },
   y: { type: 'consonant', value: 'y' },
   W: { type: 'consonant', value: 'W' },
@@ -220,18 +840,29 @@ type Slot = {
   head: number
 }
 
+type State = {
+  type: 'start' | 'vowel' | 'consonant'
+  flow: 'unknown' | 'opening' | 'closing'
+}
+
 function demarcate(chunks: Array<Mark>) {
-  let state = 'start'
+  let previous: State = {
+    type: 'start',
+    flow: 'unknown',
+  }
 
   const slots: Array<Slot> = []
   let slot: Slot | undefined
 
-  chunks.forEach((chunk, i) => {
-    switch (state) {
+  let i = 0
+  while (i < chunks.length) {
+    const chunk = chunks[i]!
+    switch (previous.type) {
       case 'start':
         switch (chunk.type) {
           case 'vowel':
-            state = 'vowel'
+            previous.type = 'vowel'
+            previous.flow = 'opening'
             break
           default:
             break
@@ -267,6 +898,18 @@ function demarcate(chunks: Array<Mark>) {
                   default:
                     break
                 }
+              case 'e':
+                switch (chunk.value) {
+                  case 'o':
+                  case 'A':
+                  case 'a':
+                  case 'u':
+                    slot = { base: i - 1, head: i - 1 }
+                    slots.push(slot)
+                    break
+                  default:
+                    break
+                }
               case 'u$':
                 slot = { base: i, head: i }
                 slots.push(slot)
@@ -277,9 +920,23 @@ function demarcate(chunks: Array<Mark>) {
             break
           }
           case 'consonant':
-            state = 'consonant'
-            slot = { base: i, head: i }
-            slots.push(slot)
+            switch (chunk.value) {
+              case 'n':
+              case 'N':
+              case 'm':
+              case 'l':
+                previous.type = 'consonant'
+                previous.flow = 'closing'
+                break
+              case 'w':
+              case 'y':
+                previous.type = 'consonant'
+                previous.flow = 'closing'
+                break
+              default:
+                slot = { base: i, head: i }
+                slots.push(slot)
+            }
             break
           default:
             break
@@ -288,7 +945,7 @@ function demarcate(chunks: Array<Mark>) {
       case 'consonant':
         switch (chunk.type) {
           case 'vowel':
-            state = 'vowel'
+            previous.type = 'vowel'
             break
           case 'consonant':
             switch (chunk.value) {
@@ -301,10 +958,10 @@ function demarcate(chunks: Array<Mark>) {
                 assert(slot)
                 slot.head = i - 1
                 slot = undefined
-                state = 'consonant'
+                previous.type = 'consonant'
                 break
               default:
-                state = 'consonant'
+                previous.type = 'consonant'
                 if (!slot) {
                   slot = { base: i, head: i }
                   slots.push(slot)
@@ -320,7 +977,7 @@ function demarcate(chunks: Array<Mark>) {
       default:
         break
     }
-  })
+  }
 
   const size =
     !slots.length || slots[slots.length - 1]?.head !== chunks.length - 1
@@ -334,23 +991,25 @@ function demarcate(chunks: Array<Mark>) {
   }
 
   const prosody: Prosody = []
-  let i = 0
-  let syllable: Array<string> = []
-  let chunk: Mark = chunks[0]!
-  slots.forEach(slot => {
-    syllable = []
-    while (i <= slot.base) {
-      chunk = chunks[i]!
-      syllable.push(serialize(chunk))
-      i++
-    }
-    const text = syllable.join('')
-    prosody.push({
-      text,
-      stressed: !!text.match(/\^/) === true ? true : undefined,
-      open: chunk.type === 'vowel' ? true : undefined,
+  {
+    let i = 0
+    let syllable: Array<string> = []
+    let chunk: Mark = chunks[0]!
+    slots.forEach(slot => {
+      syllable = []
+      while (i <= slot.base) {
+        chunk = chunks[i]!
+        syllable.push(serialize(chunk))
+        i++
+      }
+      const text = syllable.join('')
+      prosody.push({
+        text,
+        stressed: !!text.match(/\^/) === true ? true : undefined,
+        open: chunk.type === 'vowel' ? true : undefined,
+      })
     })
-  })
+  }
 
   return prosody
 }
