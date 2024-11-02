@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "Apache 2.0",
   "dependencies": {
-    "@lancejpollard/script-tree": "^1.1.2"
+    "@lancejpollard/script-tree": "^1.1.2",
+    "lodash": "^4.17.21"
   },
   "scripts": {
     "make": "rm -rf host && tsc && tsc-alias && cp package.json host/package.json",

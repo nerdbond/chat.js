@@ -11,6 +11,9 @@ importers:
       '@lancejpollard/script-tree':
         specifier: ^1.1.2
         version: 1.1.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
     devDependencies:
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.0.0

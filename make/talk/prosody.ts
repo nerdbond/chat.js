@@ -1,3 +1,15 @@
+import merge from 'lodash/merge'
+
+import {
+  ACCENT_MARKS,
+  BASE_VOWEL_GLYPHS,
+  DURATION_MARKS,
+  NASAL_MARKS,
+  SYLLABIC_MARKS,
+  TONE_MARKS,
+  VARIANT_MARKS,
+} from '.'
+
 type Mark = {
   aspiration?: boolean
   click?: boolean
@@ -12,7 +24,17 @@ type Mark = {
   stop?: boolean
   stress?: boolean
   tense?: boolean
-  tone?: 'extra high' | 'high' | 'low' | 'extra low'
+  tone?:
+    | 'extra high'
+    | 'high'
+    | 'low'
+    | 'extra low'
+    | 'rising'
+    | 'rising 2'
+    | 'falling'
+    | 'falling 2'
+    | 'rising falling'
+    | 'falling rising'
   truncation?: boolean
   type?: 'punctuation' | 'vowel' | 'consonant'
   value?: string
@@ -21,37 +43,23 @@ type Mark = {
 }
 
 const MARK: Record<string, Mark> = {
-  '++': { tone: 'extra high' },
-  '+': { tone: 'high' },
-  '--': { tone: 'extra low' },
-  '-': { tone: 'low' },
-  '@': { tense: true },
-  '.': { stop: true },
   '=.': { type: 'punctuation', value: '.' },
   '=@': { type: 'punctuation', value: '@' },
   '=?': { type: 'punctuation', value: '?' },
   '=!': { type: 'punctuation', value: '!' },
   '=+': { type: 'punctuation', value: '+' },
   '=-': { type: 'punctuation', value: '-' },
-  u$: { type: 'vowel', value: 'u$' },
-  o$: { type: 'vowel', value: 'o$' },
-  i: { type: 'vowel', value: 'i' },
-  e: { type: 'vowel', value: 'e' },
-  a: { type: 'vowel', value: 'a' },
-  o: { type: 'vowel', value: 'o' },
-  u: { type: 'vowel', value: 'u' },
-  A: { type: 'vowel', value: 'A' },
-  E: { type: 'vowel', value: 'E' },
-  I: { type: 'vowel', value: 'I' },
-  U: { type: 'vowel', value: 'U' },
-  O: { type: 'vowel', value: 'O' },
   'h!': { voicelessness: true },
   'h~': { aspiration: true },
   'w~': { labialization: true },
   'y~': { palatalization: true },
   'G~': { velarization: true },
   'Q~': { pharyngealization: true },
-  'm!': { type: 'consonant', value: 'm', ejection: true },
+  'l*': { type: 'consonant', value: 'l', click: true },
+  't*': { type: 'consonant', value: 't', click: true },
+  'd*': { type: 'consonant', value: 'd', click: true },
+  'k*': { type: 'consonant', value: 'k', click: true },
+  'p*': { type: 'consonant', value: 'p', click: true },
   'n!': { type: 'consonant', value: 'n', ejection: true },
   'q!': { type: 'consonant', value: 'q', ejection: true },
   'g!': { type: 'consonant', value: 'g', ejection: true },
@@ -112,6 +120,21 @@ const MARK: Record<string, Mark> = {
   L: { type: 'consonant', value: 'L' },
   r: { type: 'consonant', value: 'r' },
   R: { type: 'consonant', value: 'R' },
+}
+
+const EXTRA_FEATURES: Record<string, Mark> = {
+  '--': { tone: 'extra low' },
+  '-': { tone: 'low' },
+  '++': { tone: 'extra high' },
+  '+': { tone: 'high' },
+  '//': { tone: 'rising 2' }, // rising 2 (vietnamese ngã)
+  '/': { tone: 'rising' }, // rising (vietnamese sắc)
+  '\\/': { tone: 'falling rising' }, // falling rising (vietnamese hỏi)
+  '/\\': { tone: 'rising falling' }, // rising falling
+  '\\\\': { tone: 'falling 2' }, // falling 2 (vietnamese nặng)
+  '\\': { tone: 'falling' }, // falling (vietnamese huyền)
+  '@': { tense: true },
+  '.': { stop: true },
   '!': { truncation: true },
   _: { elongation: true },
   '^': { stress: true },
@@ -120,6 +143,45 @@ const MARK: Record<string, Mark> = {
   '~': { dentalization: true },
   '&': { nasalization: true },
 }
+
+BASE_VOWEL_GLYPHS.forEach(g => {
+  ACCENT_MARKS.forEach(a => {
+    DURATION_MARKS.forEach(l => {
+      SYLLABIC_MARKS.forEach(s => {
+        NASAL_MARKS.forEach(n => {
+          VARIANT_MARKS.forEach(v => {
+            TONE_MARKS.forEach(t => {
+              const i = `${g}${v}${n}${s}${t}${l}${a}`
+              const features = merge(
+                { type: 'vowel', value: `${g}${v}` },
+                EXTRA_FEATURES[n],
+                EXTRA_FEATURES[s],
+                EXTRA_FEATURES[t],
+                EXTRA_FEATURES[l],
+                EXTRA_FEATURES[a],
+              )
+
+              MARK[i] = features
+            })
+          })
+        })
+      })
+    })
+  })
+})
+
+// u$: { type: 'vowel', value: 'u$' },
+// o$: { type: 'vowel', value: 'o$' },
+// i: { type: 'vowel', value: 'i' },
+// e: { type: 'vowel', value: 'e' },
+// a: { type: 'vowel', value: 'a' },
+// o: { type: 'vowel', value: 'o' },
+// u: { type: 'vowel', value: 'u' },
+// A: { type: 'vowel', value: 'A' },
+// E: { type: 'vowel', value: 'E' },
+// I: { type: 'vowel', value: 'I' },
+// U: { type: 'vowel', value: 'U' },
+// O: { type: 'vowel', value: 'O' },
 
 export default function make(string: string) {
   let x = string
@@ -133,6 +195,7 @@ export default function make(string: string) {
         if (val && val.type) {
           chunks.push({ ...val })
         } else {
+          // merge with previous....
           chunks[chunks.length - 1] = {
             ...chunks[chunks.length - 1],
             ...val,
@@ -204,6 +267,10 @@ function demarcate(chunks: Array<Mark>) {
                   default:
                     break
                 }
+              case 'u$':
+                slot = { base: i, head: i }
+                slots.push(slot)
+                break
               default:
                 break
             }
@@ -234,13 +301,15 @@ function demarcate(chunks: Array<Mark>) {
                 assert(slot)
                 slot.head = i - 1
                 slot = undefined
+                state = 'consonant'
                 break
               default:
+                state = 'consonant'
                 if (!slot) {
                   slot = { base: i, head: i }
                   slots.push(slot)
                 }
-                slot.head = i
+                slot.base = slot.head = i
                 break
             }
             break
@@ -258,13 +327,133 @@ function demarcate(chunks: Array<Mark>) {
       ? slots.length + 1
       : slots.length
 
-  const fold = size === slots.length
+  const closed = size === slots.length
 
-  return { hunk: chunks, slot: slots, fold, size }
+  if (!closed) {
+    slots.push({ base: chunks.length - 1, head: chunks.length - 1 })
+  }
+
+  const prosody: Prosody = []
+  let i = 0
+  let syllable: Array<string> = []
+  let chunk: Mark = chunks[0]!
+  slots.forEach(slot => {
+    syllable = []
+    while (i <= slot.base) {
+      chunk = chunks[i]!
+      syllable.push(serialize(chunk))
+      i++
+    }
+    const text = syllable.join('')
+    prosody.push({
+      text,
+      stressed: !!text.match(/\^/) === true ? true : undefined,
+      open: chunk.type === 'vowel' ? true : undefined,
+    })
+  })
+
+  return prosody
+}
+
+export type Prosody = Array<Syllable>
+
+export type Syllable = {
+  text: string
+  open?: boolean
+  stressed?: boolean
 }
 
 function assert(x: unknown): asserts x {
   if (!x) {
     throw new Error('assertion failed')
   }
+}
+
+function serialize(mark: Mark) {
+  const text: Array<string> = []
+  if (mark.value) {
+    text.push(mark.value)
+  }
+  if (mark.click) {
+    text.push(`*`)
+  }
+  if (mark.dentalization) {
+  }
+  if (mark.ejection) {
+    text.push(`!`)
+  }
+  if (mark.implosion) {
+    text.push(`?`)
+  }
+  if (mark.nasalization) {
+    text.push(`&`)
+  }
+  if (mark.tone) {
+    switch (mark.tone) {
+      case 'extra high':
+        text.push(`++`)
+        break
+      case 'high':
+        text.push(`+`)
+        break
+      case 'low':
+        text.push(`-`)
+        break
+      case 'extra low':
+        text.push(`--`)
+        break
+      case 'rising':
+        text.push(`/`)
+        break
+      case 'rising 2':
+        text.push(`//`)
+        break
+      case 'falling':
+        text.push(`\\`)
+        break
+      case 'falling 2':
+        text.push(`\\\\`)
+        break
+      case 'rising falling':
+        text.push(`/\\`)
+        break
+      case 'falling rising':
+        text.push(`\\/`)
+        break
+    }
+  }
+  if (mark.elongation) {
+    text.push(`_`)
+  }
+  if (mark.truncation) {
+    text.push('!')
+  }
+  if (mark.stress) {
+    text.push(`^`)
+  }
+  if (mark.pharyngealization) {
+    text.push(`Q~`)
+  }
+  if (mark.velarization) {
+    text.push(`G~`)
+  }
+  if (mark.palatalization) {
+    text.push(`y~`)
+  }
+  if (mark.labialization) {
+    text.push(`w~`)
+  }
+  if (mark.aspiration) {
+    text.push(`h~`)
+  }
+  if (mark.stop) {
+    text.push(`.`)
+  }
+  if (mark.tense) {
+    text.push(`@`)
+  }
+  if (mark.voicelessness) {
+  }
+
+  return text.join('')
 }

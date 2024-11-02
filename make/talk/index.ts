@@ -72,7 +72,7 @@ export type Take = {
 
 export const VOWELS: Array<Take> = []
 
-const BASE_VOWEL_GLYPHS = [
+export const BASE_VOWEL_GLYPHS = [
   'I',
   'E',
   'A',
@@ -84,7 +84,7 @@ const BASE_VOWEL_GLYPHS = [
   'o',
   'u',
 ]
-const TONE_MARKS = [
+export const TONE_MARKS = [
   '--',
   '-',
   '++',
@@ -97,11 +97,11 @@ const TONE_MARKS = [
   '\\',
   '',
 ]
-const VARIANT_MARKS = ['$', '']
-const NASAL_MARKS = ['&', '']
-const DURATION_MARKS = ['_', '!', '']
-const SYLLABIC_MARKS = ['@', '']
-const ACCENT_MARKS = ['^', '']
+export const VARIANT_MARKS = ['$', '']
+export const NASAL_MARKS = ['&', '']
+export const DURATION_MARKS = ['_', '!', '']
+export const SYLLABIC_MARKS = ['@', '']
+export const ACCENT_MARKS = ['^', '']
 
 BASE_VOWEL_GLYPHS.forEach(g => {
   ACCENT_MARKS.forEach(a => {
