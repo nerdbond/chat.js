@@ -346,13 +346,13 @@ export default function make(ipa: string, options = { tones: true }) {
         addConsonant('R')
         break
       case 'ɣ':
-        addConsonant('Q')
+        addConsonant('G')
         break
       case 'ʁ':
-        addConsonant('Q')
+        addConsonant('G')
         break
       case 'ʀ':
-        addConsonant('QQ')
+        addConsonant('GG')
         break
       case 'ɬ':
         addConsonant('S')
