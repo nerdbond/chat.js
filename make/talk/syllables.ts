@@ -132,7 +132,6 @@ kx
 kc
 kC
 ks
-lw
 mr
 mw
 ml
@@ -171,6 +170,8 @@ vy
 vm
 vn
 wr
+xw
+jw
 ${sStart('s')}
 ${sStart('z')}
 ${sStart('x')}
@@ -249,7 +250,8 @@ ${prefix}C
 ${prefix}Cd
 ${prefix}Ck
 ${prefix}CD
-${prefix}CK`
+${prefix}CK
+${prefix}:'`
 
 const gEnd = (prefix: string) => `${prefix}j
 ${prefix}x
@@ -321,7 +323,8 @@ ${prefix}ps
 ${prefix}px
 ${prefix}c
 ${prefix}cs
-${prefix}cx`
+${prefix}cx
+${prefix}:'`
 
 const vEnd = (prefix: string) => `${prefix}j
 ${prefix}z
@@ -371,7 +374,27 @@ v
 w
 x
 y
-z`.split(/\n+/)
+z
+G
+Q
+'
+B
+D
+F
+H
+J
+K
+L
+N
+R
+S
+T
+V
+X
+Z
+dj
+dx
+tx`.split(/\n+/)
 
 export const endConsonants = uniq(
   `y:g
@@ -400,6 +423,7 @@ y:C
 y:c
 wC
 wc
+tx:s
 ${bEnd('b')}
 ${bEnd('p')}
 ${bEnd('rb')}
@@ -415,6 +439,14 @@ ${bEnd('rf')}
 ${bEnd('ln')}
 ${bEnd('rm')}
 ${bEnd('lm')}
+lf:'
+l:f
+lfs
+lfs:t
+lfs:k
+lfs:z
+fs
+fs:z
 
 ${mEnd('m')}
 ${mEnd('rm')}
@@ -481,11 +513,11 @@ mp
 mp:f
 mpf:t
 mp:H
-mp:k
+mpk
 mp:s
 mp:sk
 mp:st
-mp:t
+mpt
 ms
 ms:k
 ms:t
@@ -514,15 +546,37 @@ sj
 sj:d
 sn:j
 sn:d
-nj:d
-nj:t
-mj:d
-mj:t
-nx:t
-mx:t
+njd
+njt
+mjd
+mjt
+nxt
+mxt
 sn:t
-dj
-tx
+
+'b
+'c
+'C
+'d
+'f
+'g
+'h
+'j
+'k
+'m
+'n
+'p
+'q
+'r
+'s
+'t
+'v
+'w
+'x
+'y
+'z
+'G
+':Q
 `
     .trim()
     .split(/\n+/)
@@ -531,14 +585,36 @@ tx
 )
 
 export const fullConsonants = uniq(
-  `
+  `'l
 txm
 txn
 txq
+spldj
+sprdj
+sprdjd
 spldjd
 spldjt
 spltxt
 spltxp
+brv
+brvz
+brvzd
+brvzt
+brvs
+brvst
+brvsk
+prv
+prvz
+prvzd
+prvzt
+prvs
+prvt
+prvst
+prvsk
+r'
+l'
+w'
+y'
 `
     .trim()
     .split(/\n+/)

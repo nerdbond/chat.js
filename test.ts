@@ -1,4 +1,5 @@
 import makeTalk from '~/make/talk/index.js'
+import makeTalkToIpa from '~/make/talk/ipa.js'
 import makeIpaToTalk from '~/make/ipa/talk.js'
 import makeIpaToXSampa from '~/make/ipa/xsampa.js'
 import parseProsody from '~/make/talk/prosody.js'
@@ -72,15 +73,33 @@ parse('ayu$ve^ydU')
 parse('kUba^llU')
 parse('fOla^sOfi')
 parse('fOla^sOfirmja')
-parse('sUfI^stUkeItEd')
+parse("'lKadami")
+parse("'ldjaryu")
+parse("'lttazalludju")
+parse("'l'alw'hh~i")
 parse('sUfI^stUkeItEdanjdxwa')
 parse('AmplIfaydrai')
 parse('briqketzwaqlOmptzwa')
 // parse('AmplIfaydz')
 parse('A&_^mplIfaydzoltxahasntayCwa')
+parse("'lddarr'dj'ti")
+parse("'lK'Qida_ti")
+parse("'lGu_lfu")
+parse("galf'u")
+parse("galf'u'")
+parse("galf'u'l")
+parse('gaialfsz')
+parse('gaiaoilfst')
+parse('greIdAotxs')
+parse('prvst')
 
 function parse(word: string) {
-  console.log(word, parseProsody(word))
+  console.log(word)
+  console.log(' ', parseProsody(word).join('-'))
+  // console.log(
+  //   makeTalkToIpa(word),
+  //   parseProsody(word).map(makeTalkToIpa).join('-'),
+  // )
 }
 
 function talk(a: string, b: string) {

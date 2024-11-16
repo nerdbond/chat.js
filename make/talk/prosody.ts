@@ -95,6 +95,7 @@ const MARK: Record<string, Mark> = {
   N: { type: 'consonant', value: 'N', form: 'flow' },
   q: { type: 'consonant', value: 'q', form: 'flow' },
   g: { type: 'consonant', value: 'g', form: 'wall' },
+  G: { type: 'consonant', value: 'G', form: 'flow' },
   d: { type: 'consonant', value: 'd', form: 'wall' },
   b: { type: 'consonant', value: 'b', form: 'wall' },
   p: { type: 'consonant', value: 'p', form: 'wall' },
@@ -206,7 +207,7 @@ export function chunk(string: string) {
       }
     }
     if (!matched) {
-      console.error(string.slice(0, i))
+      console.error(string)
       throw new Error('Invalid characters found')
     }
   }
