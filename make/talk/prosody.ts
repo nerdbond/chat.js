@@ -331,7 +331,7 @@ export function group(chunks: Array<Mark>) {
 
       let left: Array<Mark> = []
       let right: Array<Mark> = []
-      // if (nodeSpanText.match(/^[ieaou]/i)) {
+
       const [a, b] = lastSpan.match.split(':')!
 
       let j = 0
@@ -346,7 +346,6 @@ export function group(chunks: Array<Mark>) {
         }
         j++
       }
-      // }
 
       if (right.length) {
         nodeSpan.chunk.unshift(...right)

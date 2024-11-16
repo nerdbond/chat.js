@@ -77,7 +77,7 @@ parse('sUfI^stUkeItEdanjdxwa')
 parse('AmplIfaydrai')
 parse('briqketzwaqlOmptzwa')
 // parse('AmplIfaydz')
-parse('A&_^mplIfaydzoltxaha')
+parse('A&_^mplIfaydzoltxahasntayCwa')
 
 function parse(word: string) {
   console.log(word, parseProsody(word))
