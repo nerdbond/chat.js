@@ -182,30 +182,49 @@ ${sStart('j')}
     .sort(sortLength),
 )
 
-const mEnd = (prefix: string) => `${prefix}bv
-${prefix}bf
+const mEnd = (prefix: string) => `${prefix}bf
+${prefix}bF
+${prefix}bv
+${prefix}bV
 ${prefix}bz
+${prefix}bZ
 ${prefix}bs
+${prefix}bS
 ${prefix}bx
+${prefix}bX
 ${prefix}bj
+${prefix}bJ
 ${prefix}bc
 ${prefix}bct
+${prefix}bcT
 ${prefix}bck
+${prefix}bcK
 ${prefix}bC
 ${prefix}bCd
 ${prefix}bCk
+${prefix}bCK
 ${prefix}v
+${prefix}V
 ${prefix}f
+${prefix}F
 ${prefix}z
+${prefix}Z
 ${prefix}s
+${prefix}S
 ${prefix}x
+${prefix}X
 ${prefix}j
+${prefix}J
 ${prefix}c
 ${prefix}ct
+${prefix}cT
 ${prefix}ck
+${prefix}cK
 ${prefix}C
 ${prefix}Cd
-${prefix}Ck`
+${prefix}CD
+${prefix}Ck
+${prefix}CK`
 
 const bEnd = (prefix: string) => `${prefix}v
 ${prefix}f
@@ -214,12 +233,23 @@ ${prefix}z
 ${prefix}s
 ${prefix}x
 ${prefix}j
+${prefix}V
+${prefix}F
+${prefix}V
+${prefix}Z
+${prefix}S
+${prefix}X
+${prefix}J
 ${prefix}c
 ${prefix}ct
 ${prefix}ck
+${prefix}cT
+${prefix}cK
 ${prefix}C
 ${prefix}Cd
-${prefix}Ck`
+${prefix}Ck
+${prefix}CD
+${prefix}CK`
 
 const gEnd = (prefix: string) => `${prefix}j
 ${prefix}x
@@ -229,6 +259,16 @@ ${prefix}jk
 ${prefix}jt
 ${prefix}xk
 ${prefix}xt
+${prefix}J
+${prefix}X
+${prefix}JD
+${prefix}Jg
+${prefix}Jk
+${prefix}JK
+${prefix}JT
+${prefix}Xk
+${prefix}XK
+${prefix}XT
 ${prefix}b
 ${prefix}p
 ${prefix}d
@@ -237,16 +277,33 @@ ${prefix}f
 ${prefix}v
 ${prefix}s
 ${prefix}z
+${prefix}d
+${prefix}T
+${prefix}F
+${prefix}V
+${prefix}S
+${prefix}Z
 ${prefix}H`
 
 const kEnd = (prefix: string) => `${prefix}j
 ${prefix}x
 ${prefix}xk
 ${prefix}xt
+${prefix}J
+${prefix}X
+${prefix}Xk
+${prefix}Xt
+${prefix}XK
+${prefix}XT
+${prefix}xK
+${prefix}xT
 ${prefix}p
 ${prefix}t
 ${prefix}f
 ${prefix}s
+${prefix}T
+${prefix}F
+${prefix}S
 ${prefix}H`
 
 const fEnd = (prefix: string) => `${prefix}x
