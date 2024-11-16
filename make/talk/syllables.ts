@@ -152,12 +152,14 @@ pz
 pc
 pC
 qr
-ql
+q:l
 qw
 qy
 tr
 ts
 tz
+tz:w
+tz:y
 tl
 tw
 tx
@@ -319,6 +321,8 @@ export const endConsonants = uniq(
 wg
 yk
 wk
+ts
+tz
 y:d
 wd
 yt
@@ -376,8 +380,11 @@ ${kEnd('rk')}
 ${kEnd('lk')}
 
 ${kEnd('mk')}
+m:k
 ${kEnd('nk')}
+n:k
 ${kEnd('qk')}
+q:k
 
 ${fEnd('f')}
 ${fEnd('rf')}

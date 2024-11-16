@@ -331,22 +331,22 @@ export function group(chunks: Array<Mark>) {
 
       let left: Array<Mark> = []
       let right: Array<Mark> = []
-      if (nodeSpanText.match(/^[ieaou]/i)) {
-        const [a, b] = lastSpan.match.split(':')!
+      // if (nodeSpanText.match(/^[ieaou]/i)) {
+      const [a, b] = lastSpan.match.split(':')!
 
-        let j = 0
-        let text = ''
-        let array = left
-        while (j < lastSpan.chunk.length) {
-          const mark = lastSpan.chunk[j]!
-          text += mark.value
-          array.push(mark)
-          if (text === a && !right.length) {
-            array = right
-          }
-          j++
+      let j = 0
+      let text = ''
+      let array = left
+      while (j < lastSpan.chunk.length) {
+        const mark = lastSpan.chunk[j]!
+        text += mark.value
+        array.push(mark)
+        if (text === a && !right.length) {
+          array = right
         }
+        j++
       }
+      // }
 
       if (right.length) {
         nodeSpan.chunk.unshift(...right)
