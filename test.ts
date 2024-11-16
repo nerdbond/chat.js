@@ -68,13 +68,19 @@ import parseProsody from '~/make/talk/prosody.js'
 // ipaToTalk('ɔ̂ːi̯.on', 'o$_i@on')
 // ipaToTalk('kuɾl', 'kurl')
 
-// console.log(parseProsody('ayu$ve^ydU'))
-// console.log(parseProsody('kUba^llU'))
-// console.log(parseProsody('fOla^sOfi'))
-// console.log(parseProsody('sUfI^stUkeItEd'))
-// console.log(parseProsody('AmplIfayd'))
-// console.log(parseProsody('AmplIfaydz'))
-console.log(parseProsody('AmplIfaydzoltxaha'))
+parse('ayu$ve^ydU')
+parse('kUba^llU')
+parse('fOla^sOfi')
+parse('fOla^sOfirmja')
+parse('sUfI^stUkeItEd')
+parse('sUfI^stUkeItEdanjdxwa')
+// parse('AmplIfayd')
+// parse('AmplIfaydz')
+parse('A&_^mplIfaydzoltxaha')
+
+function parse(word: string) {
+  console.log(word, parseProsody(word))
+}
 
 function talk(a: string, b: string) {
   const o = makeTalk(a)

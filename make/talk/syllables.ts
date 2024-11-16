@@ -1,0 +1,547 @@
+import uniq from 'lodash/uniq'
+
+const sortLength = (a: string, b: string) => {
+  const diff = b.length - a.length
+  if (!diff) {
+    return a.localeCompare(b)
+  }
+  return diff
+}
+
+const noDuplicateSounds = (s: string) => {
+  if (!s.trim()) {
+    return false
+  }
+
+  let i = 0
+  while (i < s.length) {
+    const a = s[i++]!
+    const b = s[i]
+    if (!b) {
+      return true
+    }
+    if (a === b) {
+      return false
+    }
+  }
+}
+
+const sStart = (prefix = 's') => `${prefix}br
+${prefix}bw
+${prefix}by
+${prefix}d
+${prefix}dy
+${prefix}dw
+${prefix}djr
+${prefix}dr
+${prefix}fr
+${prefix}fy
+${prefix}fw
+${prefix}gr
+${prefix}gw
+${prefix}gy
+${prefix}c
+${prefix}cw
+${prefix}cy
+${prefix}k
+${prefix}kl
+${prefix}kr
+${prefix}kw
+${prefix}ky
+${prefix}l
+${prefix}lw
+${prefix}m
+${prefix}my
+${prefix}mw
+${prefix}mr
+${prefix}ml
+${prefix}n
+${prefix}ny
+${prefix}nw
+${prefix}nr
+${prefix}p
+${prefix}pl
+${prefix}pr
+${prefix}pw
+${prefix}t
+${prefix}ty
+${prefix}tw
+${prefix}tr
+${prefix}txr
+${prefix}tx
+${prefix}dj
+${prefix}w
+${prefix}j
+`
+
+export const startConsonants = uniq(
+  `bl
+bj
+bz
+bs
+br
+bw
+by
+cl
+cr
+cw
+cy
+Cl
+Cr
+Cw
+Cy
+dj
+dl
+dr
+dw
+dy
+dz
+fl
+fr
+fw
+fy
+fs
+fv
+fm
+fn
+fc
+fC
+gl
+gr
+gw
+gy
+gz
+gs
+gj
+gC
+hr
+hl
+hw
+hy
+hm
+hn
+jr
+jl
+jm
+jn
+kl
+kr
+kw
+ky
+kx
+kc
+kC
+ks
+lw
+mr
+mw
+ml
+my
+nr
+nw
+nl
+ny
+pl
+pr
+pw
+py
+pj
+px
+ps
+pz
+pc
+pC
+qr
+ql
+qw
+qy
+tr
+ts
+tz
+tl
+tw
+tx
+tj
+vl
+vr
+vw
+vy
+vm
+vn
+wr
+${sStart('s')}
+${sStart('z')}
+${sStart('x')}
+${sStart('j')}
+`
+    .trim()
+    .split(/\n+/)
+    .filter(noDuplicateSounds)
+    .sort(sortLength),
+)
+
+const mEnd = (prefix: string) => `${prefix}bv
+${prefix}bf
+${prefix}bz
+${prefix}bs
+${prefix}bx
+${prefix}bj
+${prefix}bc
+${prefix}bct
+${prefix}bck
+${prefix}bC
+${prefix}bCd
+${prefix}bCk
+${prefix}v
+${prefix}f
+${prefix}z
+${prefix}s
+${prefix}x
+${prefix}j
+${prefix}c
+${prefix}ct
+${prefix}ck
+${prefix}C
+${prefix}Cd
+${prefix}Ck`
+
+const bEnd = (prefix: string) => `${prefix}v
+${prefix}f
+${prefix}v
+${prefix}z
+${prefix}s
+${prefix}x
+${prefix}j
+${prefix}c
+${prefix}ct
+${prefix}ck
+${prefix}C
+${prefix}Cd
+${prefix}Ck`
+
+const gEnd = (prefix: string) => `${prefix}j
+${prefix}x
+${prefix}jd
+${prefix}jg
+${prefix}jk
+${prefix}jt
+${prefix}xk
+${prefix}xt
+${prefix}b
+${prefix}p
+${prefix}d
+${prefix}t
+${prefix}f
+${prefix}v
+${prefix}s
+${prefix}z
+${prefix}H`
+
+const kEnd = (prefix: string) => `${prefix}j
+${prefix}x
+${prefix}xk
+${prefix}xt
+${prefix}p
+${prefix}t
+${prefix}f
+${prefix}s
+${prefix}H`
+
+const fEnd = (prefix: string) => `${prefix}x
+${prefix}s
+${prefix}sk
+${prefix}st
+${prefix}k
+${prefix}ks
+${prefix}kx
+${prefix}t
+${prefix}ts
+${prefix}tx
+${prefix}p
+${prefix}ps
+${prefix}px
+${prefix}c
+${prefix}cs
+${prefix}cx`
+
+const vEnd = (prefix: string) => `${prefix}j
+${prefix}z
+${prefix}s
+${prefix}k
+${prefix}ks
+${prefix}kx
+${prefix}g
+${prefix}gz
+${prefix}gj
+${prefix}t
+${prefix}ts
+${prefix}tx
+${prefix}d
+${prefix}ds
+${prefix}dz
+${prefix}dj
+${prefix}p
+${prefix}ps
+${prefix}b
+${prefix}bz
+${prefix}c
+${prefix}cs
+${prefix}cx
+${prefix}C
+${prefix}Cz
+${prefix}Cj`
+
+export const consonants = `b
+c
+C
+d
+f
+g
+h
+j
+k
+l
+m
+n
+p
+q
+r
+s
+t
+v
+w
+x
+y
+z`.split(/\n+/)
+
+export const endConsonants = uniq(
+  `yg
+wg
+yk
+wk
+y:d
+wd
+yt
+wt
+yb
+wb
+yp
+wp
+yz
+ys
+wz
+ws
+yj
+yx
+wj
+wx
+yC
+yc
+wC
+wc
+${bEnd('b')}
+${bEnd('p')}
+${bEnd('rb')}
+${bEnd('rp')}
+${bEnd('lp')}
+${bEnd('lb')}
+${bEnd('v')}
+${bEnd('lv')}
+${bEnd('rv')}
+${bEnd('f')}
+${bEnd('lf')}
+${bEnd('rf')}
+${bEnd('ln')}
+${bEnd('rm')}
+${bEnd('lm')}
+
+${mEnd('m')}
+${mEnd('rm')}
+${mEnd('n')}
+${mEnd('rn')}
+${mEnd('r')}
+${mEnd('l')}
+${mEnd('lm')}
+${mEnd('ln')}
+
+${gEnd('g')}
+${gEnd('rg')}
+${gEnd('lg')}
+${gEnd('mg')}
+${gEnd('ng')}
+${gEnd('qg')}
+
+${kEnd('k')}
+${kEnd('rk')}
+${kEnd('lk')}
+
+${kEnd('mk')}
+${kEnd('nk')}
+${kEnd('qk')}
+
+${fEnd('f')}
+${fEnd('rf')}
+${fEnd('lf')}
+
+${vEnd('v')}
+${vEnd('rv')}
+${vEnd('lv')}
+
+l:kt
+l:tx
+l:txc
+l:txs
+l:dj
+l:djz
+lt
+lp
+lz
+ls
+ls:t
+ls:p
+ls:f
+ls:c
+lz:v
+mf
+mft
+mH
+mjk
+mjt
+rm:j
+rm:s
+rm:x
+rn:j
+rn:s
+rn:x
+mp
+mpf
+mpft
+mpH
+mpk
+mps
+mpsk
+mpst
+mpt
+ms
+msk
+mst
+mt
+mv
+mvt
+mxk
+mxt
+mz
+mzk
+mzt
+nd
+ndk
+ndp
+ndt
+ngd
+ngst
+nsk
+nst
+nt
+nz
+nzd
+rmp
+rnt
+sj
+sjd
+snj
+snjd
+njd
+njt
+mjd
+mjt
+nxt
+mxt
+snjt
+dj
+tx
+`
+    .trim()
+    .split(/\n+/)
+    .filter(noDuplicateSounds)
+    .sort(sortLength),
+)
+
+export const fullConsonants = uniq(
+  `
+txm
+txn
+txq
+spldjd
+spldjt
+spltxt
+spltxp
+`
+    .trim()
+    .split(/\n+/)
+    .filter(noDuplicateSounds)
+    .sort(sortLength),
+)
+
+export const vowels = uniq(
+  `i
+e
+a
+o
+u
+I
+E
+A
+O
+U
+i$
+e$
+a$
+o$
+u$
+o$u
+o$i
+o$a
+ai
+au
+ei
+oi
+ou
+iu
+ui
+Ii
+Ei
+Ee
+Eo
+Eu
+Ai
+Ae
+Aa
+Ao
+Au
+OU
+Oa
+Oe
+Oi
+UE
+Ua
+ae
+ao
+oa
+ia
+io
+ua
+uo
+ea
+eo
+oe
+e$i
+Iu
+Ui
+AI
+aI
+eI`
+    .trim()
+    .split(/\n+/)
+    .filter(noDuplicateSounds)
+    .sort(sortLength),
+)

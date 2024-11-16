@@ -9,786 +9,13 @@ import {
   TONE_MARKS,
   VARIANT_MARKS,
 } from '.'
-
-const NEW_IF_NOT_LAST = {
-  $new: 'if_not_last',
-  $last: 'keep',
-}
-
-const PUSH = {
-  $push: true,
-}
-
-const PUSH_END = {
-  $push: true,
-  $new: true,
-}
-
-const NEW = {
-  $new: true,
-}
-
-const RISE = {
-  m: {
-    // new all the subsequent consonants
-    m: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-  },
-  n: {
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-  },
-  N: {
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-  },
-  q: {
-    q: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-  },
-  g: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    H: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  d: {
-    G: { ...PUSH },
-    d: { ...PUSH },
-    h: { ...PUSH },
-    z: {
-      ...PUSH,
-      G: { ...PUSH },
-      r: { ...PUSH },
-      y: { ...PUSH },
-      w: { ...PUSH },
-      W: { ...PUSH },
-    },
-    Z: {
-      ...PUSH,
-      G: { ...PUSH },
-      r: { ...PUSH },
-      y: { ...PUSH },
-      w: { ...PUSH },
-      W: { ...PUSH },
-    },
-    j: {
-      ...PUSH,
-      G: { ...PUSH },
-      r: { ...PUSH },
-      y: { ...PUSH },
-      w: { ...PUSH },
-      W: { ...PUSH },
-    },
-    J: {
-      ...PUSH,
-      G: { ...PUSH },
-      r: { ...PUSH },
-      y: { ...PUSH },
-      w: { ...PUSH },
-      W: { ...PUSH },
-    },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  b: {
-    b: { ...PUSH },
-    G: { ...PUSH },
-    z: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  p: {
-    G: { ...PUSH },
-    p: { ...PUSH },
-    s: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  t: {
-    G: { ...PUSH },
-    t: { ...PUSH },
-    T: { ...PUSH },
-    s: { ...PUSH },
-    x: {
-      ...PUSH,
-      G: { ...PUSH },
-      r: { ...PUSH },
-      y: { ...PUSH },
-      w: { ...PUSH },
-      W: { ...PUSH },
-    },
-    X: {
-      ...PUSH,
-      G: { ...PUSH },
-      r: { ...PUSH },
-      y: { ...PUSH },
-      w: { ...PUSH },
-      W: { ...PUSH },
-    },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  T: {
-    G: { ...PUSH },
-    t: { ...PUSH },
-    T: { ...PUSH },
-    s: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  k: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    H: { ...PUSH },
-    x: { ...PUSH },
-    s: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  K: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    H: { ...PUSH },
-    x: { ...PUSH },
-    s: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  h: {
-    h: { ...PUSH },
-    H: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  H: {
-    h: { ...PUSH },
-    H: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  s: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    q: { ...PUSH },
-    g: { ...PUSH },
-    G: { ...PUSH },
-    d: { ...PUSH },
-    b: { ...PUSH },
-    p: { ...PUSH },
-    t: { ...PUSH },
-    T: { ...PUSH },
-    k: { ...PUSH },
-    K: { ...PUSH },
-    h: { ...PUSH },
-    H: { ...PUSH },
-    s: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  S: {
-    t: { ...PUSH },
-    T: { ...PUSH },
-    k: { ...PUSH },
-    K: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-  },
-  f: {
-    G: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  F: {
-    G: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  V: {
-    G: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  v: {
-    G: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  z: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    s: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    z: { ...PUSH },
-    Z: { ...PUSH },
-    j: { ...PUSH },
-    J: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  Z: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    s: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    z: { ...PUSH },
-    Z: { ...PUSH },
-    j: { ...PUSH },
-    J: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  j: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    j: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  J: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    J: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  x: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    x: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  X: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    G: { ...PUSH },
-    h: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    X: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  c: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    c: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  C: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    C: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  y: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    y: { ...PUSH },
-  },
-  W: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-  },
-  w: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-  },
-  Q: {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    q: { ...PUSH },
-    g: { ...PUSH },
-    G: { ...PUSH },
-    d: { ...PUSH },
-    b: { ...PUSH },
-    p: { ...PUSH },
-    t: { ...PUSH },
-    T: { ...PUSH },
-    k: { ...PUSH },
-    K: { ...PUSH },
-    h: { ...PUSH },
-    H: { ...PUSH },
-    s: { ...PUSH },
-    S: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    z: { ...PUSH },
-    Z: { ...PUSH },
-    j: { ...PUSH },
-    J: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    c: { ...PUSH },
-    C: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    Q: { ...PUSH },
-    "'": { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  "'": {
-    m: { ...PUSH },
-    n: { ...PUSH },
-    N: { ...PUSH },
-    q: { ...PUSH },
-    g: { ...PUSH },
-    G: { ...PUSH },
-    d: { ...PUSH },
-    b: { ...PUSH },
-    p: { ...PUSH },
-    t: { ...PUSH },
-    T: { ...PUSH },
-    k: { ...PUSH },
-    K: { ...PUSH },
-    h: { ...PUSH },
-    H: { ...PUSH },
-    s: { ...PUSH },
-    S: { ...PUSH },
-    f: { ...PUSH },
-    F: { ...PUSH },
-    V: { ...PUSH },
-    v: { ...PUSH },
-    z: { ...PUSH },
-    Z: { ...PUSH },
-    j: { ...PUSH },
-    J: { ...PUSH },
-    x: { ...PUSH },
-    X: { ...PUSH },
-    c: { ...PUSH },
-    C: { ...PUSH },
-    y: { ...PUSH },
-    W: { ...PUSH },
-    w: { ...PUSH },
-    Q: { ...PUSH },
-    "'": { ...PUSH },
-    l: { ...PUSH },
-    L: { ...PUSH },
-    r: { ...PUSH },
-    R: { ...PUSH },
-  },
-  l: {
-    h: { ...PUSH },
-    y: { ...PUSH_END },
-  },
-  L: {
-    h: { ...PUSH },
-    y: { ...PUSH_END },
-  },
-  r: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-  },
-  R: {
-    G: { ...PUSH },
-    h: { ...PUSH },
-  },
-}
-
-const FALL = {
-  m: {
-    m: {
-      ...NEW_IF_NOT_LAST,
-      s: {
-        ...PUSH,
-        k: { ...PUSH },
-        t: { ...PUSH },
-        p: { ...PUSH },
-        g: { ...PUSH },
-        d: { ...PUSH },
-      },
-      z: { ...PUSH },
-      Z: { ...PUSH },
-      x: { ...PUSH },
-      X: { ...PUSH },
-      j: { ...PUSH },
-      J: { ...PUSH },
-    },
-    n: {
-      ...NEW_IF_NOT_LAST,
-      s: { ...PUSH },
-      z: { ...PUSH },
-      Z: { ...PUSH },
-      x: { ...PUSH },
-      X: { ...PUSH },
-      j: { ...PUSH },
-      J: { ...PUSH },
-    },
-    N: {
-      ...NEW_IF_NOT_LAST,
-      z: { ...PUSH },
-      j: { ...PUSH },
-      J: { ...PUSH },
-    },
-    q: { ...NEW_IF_NOT_LAST },
-    G: { ...NEW },
-    g: {
-      ...NEW_IF_NOT_LAST,
-      z: { ...PUSH },
-      j: { ...PUSH },
-      J: { ...PUSH },
-    },
-    d: {
-      ...NEW_IF_NOT_LAST,
-      z: { ...PUSH },
-      j: { ...PUSH },
-      J: { ...PUSH },
-    },
-    b: { ...NEW_IF_NOT_LAST },
-    p: { ...NEW_IF_NOT_LAST },
-    t: {
-      ...NEW_IF_NOT_LAST,
-      s: { ...PUSH },
-      x: { ...PUSH },
-      X: { ...PUSH },
-    },
-    T: {
-      ...NEW_IF_NOT_LAST,
-      s: { ...PUSH },
-      x: { ...PUSH },
-      X: { ...PUSH },
-    },
-    k: { ...NEW_IF_NOT_LAST },
-    K: { ...NEW_IF_NOT_LAST },
-    h: { ...NEW_IF_NOT_LAST },
-    H: { ...NEW },
-    s: { ...NEW_IF_NOT_LAST },
-    S: { ...NEW_IF_NOT_LAST },
-    f: { ...NEW_IF_NOT_LAST },
-    F: { ...NEW_IF_NOT_LAST },
-    V: { ...NEW_IF_NOT_LAST },
-    v: { ...NEW_IF_NOT_LAST },
-    z: { ...NEW_IF_NOT_LAST },
-    Z: { ...NEW_IF_NOT_LAST },
-    j: { ...NEW_IF_NOT_LAST },
-    J: { ...NEW_IF_NOT_LAST },
-    x: { ...NEW_IF_NOT_LAST },
-    X: { ...NEW_IF_NOT_LAST },
-    c: { ...NEW_IF_NOT_LAST },
-    C: { ...NEW_IF_NOT_LAST },
-    y: { ...NEW },
-    W: { ...NEW },
-    w: { ...NEW },
-    Q: { ...NEW },
-    "'": { ...NEW },
-    l: { ...NEW },
-    L: { ...NEW },
-    r: { ...NEW },
-    R: { ...NEW },
-  },
-  n: {
-    m: { ...NEW_IF_NOT_LAST },
-    n: { ...NEW_IF_NOT_LAST },
-    N: { ...NEW_IF_NOT_LAST },
-    q: { ...NEW_IF_NOT_LAST },
-    G: { ...NEW },
-    g: { ...NEW_IF_NOT_LAST },
-    d: { ...NEW_IF_NOT_LAST },
-    b: { ...NEW_IF_NOT_LAST },
-    p: { ...NEW_IF_NOT_LAST },
-    t: { ...NEW_IF_NOT_LAST },
-    T: { ...NEW_IF_NOT_LAST },
-    k: { ...NEW_IF_NOT_LAST },
-    K: { ...NEW_IF_NOT_LAST },
-    h: { ...NEW_IF_NOT_LAST },
-    H: { ...NEW },
-    s: { ...NEW_IF_NOT_LAST },
-    S: { ...NEW_IF_NOT_LAST },
-    f: { ...NEW_IF_NOT_LAST },
-    F: { ...NEW_IF_NOT_LAST },
-    V: { ...NEW_IF_NOT_LAST },
-    v: { ...NEW_IF_NOT_LAST },
-    z: { ...NEW_IF_NOT_LAST },
-    Z: { ...NEW_IF_NOT_LAST },
-    j: { ...NEW_IF_NOT_LAST },
-    J: { ...NEW_IF_NOT_LAST },
-    x: { ...NEW_IF_NOT_LAST },
-    X: { ...NEW_IF_NOT_LAST },
-    c: { ...NEW_IF_NOT_LAST },
-    C: { ...NEW_IF_NOT_LAST },
-    y: { ...NEW },
-    W: { ...NEW },
-    w: { ...NEW },
-    Q: { ...NEW },
-    "'": { ...NEW },
-    l: { ...NEW },
-    L: { ...NEW },
-    r: { ...NEW },
-    R: { ...NEW },
-  },
-  N: {
-    m: { ...NEW_IF_NOT_LAST },
-    n: { ...NEW_IF_NOT_LAST },
-    N: { ...NEW_IF_NOT_LAST },
-    q: { ...NEW_IF_NOT_LAST },
-    G: { ...NEW },
-    g: { ...NEW_IF_NOT_LAST },
-    d: { ...NEW_IF_NOT_LAST },
-    b: { ...NEW_IF_NOT_LAST },
-    p: { ...NEW_IF_NOT_LAST },
-    t: { ...NEW_IF_NOT_LAST },
-    T: { ...NEW_IF_NOT_LAST },
-    k: { ...NEW_IF_NOT_LAST },
-    K: { ...NEW_IF_NOT_LAST },
-    h: { ...NEW_IF_NOT_LAST },
-    H: { ...NEW },
-    s: { ...NEW_IF_NOT_LAST },
-    S: { ...NEW_IF_NOT_LAST },
-    f: { ...NEW_IF_NOT_LAST },
-    F: { ...NEW_IF_NOT_LAST },
-    V: { ...NEW_IF_NOT_LAST },
-    v: { ...NEW_IF_NOT_LAST },
-    z: { ...NEW_IF_NOT_LAST },
-    Z: { ...NEW_IF_NOT_LAST },
-    j: { ...NEW_IF_NOT_LAST },
-    J: { ...NEW_IF_NOT_LAST },
-    x: { ...NEW_IF_NOT_LAST },
-    X: { ...NEW_IF_NOT_LAST },
-    c: { ...NEW_IF_NOT_LAST },
-    C: { ...NEW_IF_NOT_LAST },
-    y: { ...NEW },
-    W: { ...NEW },
-    w: { ...NEW },
-    Q: { ...NEW },
-    "'": { ...NEW },
-    l: { ...NEW },
-    L: { ...NEW },
-    r: { ...NEW },
-    R: { ...NEW },
-  },
-  q: {},
-  g: {},
-  d: {},
-  b: {},
-  p: {},
-  t: {},
-  T: {},
-  k: {},
-  K: {},
-  h: {},
-  H: {},
-  s: {},
-  S: {},
-  f: {},
-  F: {},
-  V: {},
-  v: {},
-  z: {},
-  Z: {},
-  j: {},
-  J: {},
-  x: {},
-  X: {},
-  c: {},
-  C: {},
-  y: {},
-  W: {},
-  w: {},
-  Q: {},
-  "'": {},
-  l: {},
-  L: {},
-  r: {},
-  R: {},
-}
+import {
+  consonants,
+  endConsonants,
+  fullConsonants,
+  startConsonants,
+  vowels,
+} from './syllables'
 
 type Mark = {
   aspiration?: boolean
@@ -820,6 +47,7 @@ type Mark = {
   value?: string
   velarization?: boolean
   voicelessness?: boolean
+  form?: 'wall' | 'flow' | 'turn'
 }
 
 const MARK: Record<string, Mark> = {
@@ -835,70 +63,70 @@ const MARK: Record<string, Mark> = {
   'y~': { palatalization: true },
   'G~': { velarization: true },
   'Q~': { pharyngealization: true },
-  'l*': { type: 'consonant', value: 'l', click: true },
-  't*': { type: 'consonant', value: 't', click: true },
-  'd*': { type: 'consonant', value: 'd', click: true },
-  'k*': { type: 'consonant', value: 'k', click: true },
-  'p*': { type: 'consonant', value: 'p', click: true },
-  'n!': { type: 'consonant', value: 'n', ejection: true },
-  'q!': { type: 'consonant', value: 'q', ejection: true },
-  'g!': { type: 'consonant', value: 'g', ejection: true },
-  'd!': { type: 'consonant', value: 'd', ejection: true },
-  'b!': { type: 'consonant', value: 'b', ejection: true },
-  'p!': { type: 'consonant', value: 'p', ejection: true },
-  't!': { type: 'consonant', value: 't', ejection: true },
-  'k!': { type: 'consonant', value: 'k', ejection: true },
-  's!': { type: 'consonant', value: 's', ejection: true },
-  'f!': { type: 'consonant', value: 'f', ejection: true },
-  'v!': { type: 'consonant', value: 'v', ejection: true },
-  'z!': { type: 'consonant', value: 'z', ejection: true },
-  'j!': { type: 'consonant', value: 'j', ejection: true },
-  'x!': { type: 'consonant', value: 'x', ejection: true },
-  'c!': { type: 'consonant', value: 'c', ejection: true },
-  'C!': { type: 'consonant', value: 'C', ejection: true },
-  'y!': { type: 'consonant', value: 'y', ejection: true },
-  'w!': { type: 'consonant', value: 'w', ejection: true },
-  'Q!': { type: 'consonant', value: 'Q', ejection: true },
-  'l!': { type: 'consonant', value: 'l', ejection: true },
-  'r!': { type: 'consonant', value: 'r', ejection: true },
+  'l*': { type: 'consonant', value: 'l', form: 'wall', click: true },
+  't*': { type: 'consonant', value: 't', form: 'wall', click: true },
+  'd*': { type: 'consonant', value: 'd', form: 'wall', click: true },
+  'k*': { type: 'consonant', value: 'k', form: 'wall', click: true },
+  'p*': { type: 'consonant', value: 'p', form: 'wall', click: true },
+  'n!': { type: 'consonant', value: 'n', form: 'flow', ejection: true },
+  'q!': { type: 'consonant', value: 'q', form: 'flow', ejection: true },
+  'g!': { type: 'consonant', value: 'g', form: 'wall', ejection: true },
+  'd!': { type: 'consonant', value: 'd', form: 'wall', ejection: true },
+  'b!': { type: 'consonant', value: 'b', form: 'wall', ejection: true },
+  'p!': { type: 'consonant', value: 'p', form: 'wall', ejection: true },
+  't!': { type: 'consonant', value: 't', form: 'wall', ejection: true },
+  'k!': { type: 'consonant', value: 'k', form: 'wall', ejection: true },
+  's!': { type: 'consonant', value: 's', form: 'flow', ejection: true },
+  'f!': { type: 'consonant', value: 'f', form: 'flow', ejection: true },
+  'v!': { type: 'consonant', value: 'v', form: 'flow', ejection: true },
+  'z!': { type: 'consonant', value: 'z', form: 'flow', ejection: true },
+  'j!': { type: 'consonant', value: 'j', form: 'flow', ejection: true },
+  'x!': { type: 'consonant', value: 'x', form: 'flow', ejection: true },
+  'c!': { type: 'consonant', value: 'c', form: 'flow', ejection: true },
+  'C!': { type: 'consonant', value: 'C', form: 'flow', ejection: true },
+  'y!': { type: 'consonant', value: 'y', form: 'flow', ejection: true },
+  'w!': { type: 'consonant', value: 'w', form: 'flow', ejection: true },
+  'Q!': { type: 'consonant', value: 'Q', form: 'flow', ejection: true },
+  'l!': { type: 'consonant', value: 'l', form: 'flow', ejection: true },
+  'r!': { type: 'consonant', value: 'r', form: 'flow', ejection: true },
 
-  m: { type: 'consonant', value: 'm' },
-  n: { type: 'consonant', value: 'n' },
-  N: { type: 'consonant', value: 'N' },
-  q: { type: 'consonant', value: 'q' },
-  g: { type: 'consonant', value: 'g' },
-  d: { type: 'consonant', value: 'd' },
-  b: { type: 'consonant', value: 'b' },
-  p: { type: 'consonant', value: 'p' },
-  t: { type: 'consonant', value: 't' },
-  T: { type: 'consonant', value: 'T' },
-  k: { type: 'consonant', value: 'k' },
-  K: { type: 'consonant', value: 'K' },
-  h: { type: 'consonant', value: 'h' },
-  H: { type: 'consonant', value: 'H' },
-  s: { type: 'consonant', value: 's' },
-  S: { type: 'consonant', value: 'S' },
-  f: { type: 'consonant', value: 'f' },
-  F: { type: 'consonant', value: 'F' },
-  V: { type: 'consonant', value: 'V' },
-  v: { type: 'consonant', value: 'v' },
-  z: { type: 'consonant', value: 'z' },
-  Z: { type: 'consonant', value: 'Z' },
-  j: { type: 'consonant', value: 'j' },
-  J: { type: 'consonant', value: 'J' },
-  x: { type: 'consonant', value: 'x' },
-  X: { type: 'consonant', value: 'X' },
-  c: { type: 'consonant', value: 'c' },
-  C: { type: 'consonant', value: 'C' },
-  y: { type: 'consonant', value: 'y' },
-  W: { type: 'consonant', value: 'W' },
-  w: { type: 'consonant', value: 'w' },
-  Q: { type: 'consonant', value: 'Q' },
-  "'": { type: 'consonant', value: "'" },
-  l: { type: 'consonant', value: 'l' },
-  L: { type: 'consonant', value: 'L' },
-  r: { type: 'consonant', value: 'r' },
-  R: { type: 'consonant', value: 'R' },
+  m: { type: 'consonant', value: 'm', form: 'flow' },
+  n: { type: 'consonant', value: 'n', form: 'flow' },
+  N: { type: 'consonant', value: 'N', form: 'flow' },
+  q: { type: 'consonant', value: 'q', form: 'flow' },
+  g: { type: 'consonant', value: 'g', form: 'wall' },
+  d: { type: 'consonant', value: 'd', form: 'wall' },
+  b: { type: 'consonant', value: 'b', form: 'wall' },
+  p: { type: 'consonant', value: 'p', form: 'wall' },
+  t: { type: 'consonant', value: 't', form: 'wall' },
+  T: { type: 'consonant', value: 'T', form: 'wall' },
+  k: { type: 'consonant', value: 'k', form: 'wall' },
+  K: { type: 'consonant', value: 'K', form: 'wall' },
+  h: { type: 'consonant', value: 'h', form: 'flow' },
+  H: { type: 'consonant', value: 'H', form: 'flow' },
+  s: { type: 'consonant', value: 's', form: 'flow' },
+  S: { type: 'consonant', value: 'S', form: 'flow' },
+  f: { type: 'consonant', value: 'f', form: 'flow' },
+  F: { type: 'consonant', value: 'F', form: 'flow' },
+  V: { type: 'consonant', value: 'V', form: 'flow' },
+  v: { type: 'consonant', value: 'v', form: 'flow' },
+  z: { type: 'consonant', value: 'z', form: 'flow' },
+  Z: { type: 'consonant', value: 'Z', form: 'flow' },
+  j: { type: 'consonant', value: 'j', form: 'flow' },
+  J: { type: 'consonant', value: 'J', form: 'flow' },
+  x: { type: 'consonant', value: 'x', form: 'flow' },
+  X: { type: 'consonant', value: 'X', form: 'flow' },
+  c: { type: 'consonant', value: 'c', form: 'flow' },
+  C: { type: 'consonant', value: 'C', form: 'flow' },
+  y: { type: 'consonant', value: 'y', form: 'flow' },
+  W: { type: 'consonant', value: 'W', form: 'flow' },
+  w: { type: 'consonant', value: 'w', form: 'flow' },
+  Q: { type: 'consonant', value: 'Q', form: 'flow' },
+  "'": { type: 'consonant', value: "'", form: 'flow' },
+  l: { type: 'consonant', value: 'l', form: 'flow' },
+  L: { type: 'consonant', value: 'L', form: 'flow' },
+  r: { type: 'consonant', value: 'r', form: 'flow' },
+  R: { type: 'consonant', value: 'R', form: 'flow' },
 }
 
 const EXTRA_FEATURES: Record<string, Mark> = {
@@ -949,20 +177,11 @@ BASE_VOWEL_GLYPHS.forEach(g => {
   })
 })
 
-// u$: { type: 'vowel', value: 'u$' },
-// o$: { type: 'vowel', value: 'o$' },
-// i: { type: 'vowel', value: 'i' },
-// e: { type: 'vowel', value: 'e' },
-// a: { type: 'vowel', value: 'a' },
-// o: { type: 'vowel', value: 'o' },
-// u: { type: 'vowel', value: 'u' },
-// A: { type: 'vowel', value: 'A' },
-// E: { type: 'vowel', value: 'E' },
-// I: { type: 'vowel', value: 'I' },
-// U: { type: 'vowel', value: 'U' },
-// O: { type: 'vowel', value: 'O' },
-
 export default function make(string: string) {
+  return group(chunk(string))
+}
+
+export function chunk(string: string) {
   let x = string
   const chunks: Array<Mark> = []
   let i = 0
@@ -991,203 +210,177 @@ export default function make(string: string) {
       throw new Error('Invalid characters found')
     }
   }
-  return demarcate(chunks)
+  return chunks
 }
 
-type Slot = {
-  base: number
-  head: number
-}
+type Span = { chunk: Array<Mark>; match: string }
 
-type State = {
-  type: 'start' | 'vowel' | 'consonant'
-  flow: 'unknown' | 'opening' | 'closing'
-}
-
-function demarcate(chunks: Array<Mark>) {
-  let previous: State = {
-    type: 'start',
-    flow: 'unknown',
-  }
-
-  const slots: Array<Slot> = []
-  let slot: Slot | undefined
+export function group(chunks: Array<Mark>) {
+  const list: Array<Array<Span>> = []
 
   let i = 0
   while (i < chunks.length) {
-    const chunk = chunks[i]!
-    switch (previous.type) {
-      case 'start':
-        switch (chunk.type) {
-          case 'vowel':
-            previous.type = 'vowel'
-            previous.flow = 'opening'
-            break
-          default:
-            break
+    const span: Array<Span> = []
+    let j = 0
+
+    while (j < fullConsonants.length) {
+      const x = fullConsonants[j++]!
+      const chunk = chunks.slice(i, i + x.length)
+      if (chunk.map(x => x.value).join('') === x) {
+        span.push({ chunk, match: x })
+        i += x.length
+        break
+      }
+    }
+
+    if (span.length) {
+      list.push(span)
+      continue
+    }
+
+    j = 0
+    while (j < startConsonants.length) {
+      const x = startConsonants[j++]!
+      const chunk = chunks.slice(i, i + x.length)
+      if (chunk.map(x => x.value).join('') === x) {
+        span.push({ chunk, match: x })
+        i += x.length
+        break
+      }
+    }
+
+    j = 0
+    while (j < consonants.length) {
+      const x = consonants[j++]!
+      const chunk = chunks.slice(i, i + x.length)
+      if (chunk.map(x => x.value).join('') === x) {
+        if (span.length) {
+          list.push([...span])
         }
+        span.length = 0
+        span.push({ chunk, match: x })
+        i += x.length
         break
-      case 'vowel':
-        switch (chunk.type) {
-          case 'vowel': {
-            const last = chunks[i - 1]
-            switch (last && last.value) {
-              case 'i':
-                switch (chunk.value) {
-                  case 'U':
-                  case 'u':
-                  case 'o':
-                  case 'a':
-                  case 'e':
-                  case 'A':
-                  case 'E':
-                    slot = { base: i - 1, head: i - 1 }
-                    slots.push(slot)
-                    break
-                  default:
-                    break
-                }
-              case 'o':
-                switch (chunk.value) {
-                  case 'a':
-                  case 'A':
-                    slot = { base: i - 1, head: i - 1 }
-                    slots.push(slot)
-                    break
-                  default:
-                    break
-                }
-              case 'e':
-                switch (chunk.value) {
-                  case 'o':
-                  case 'A':
-                  case 'a':
-                  case 'u':
-                    slot = { base: i - 1, head: i - 1 }
-                    slots.push(slot)
-                    break
-                  default:
-                    break
-                }
-              case 'u$':
-                slot = { base: i, head: i }
-                slots.push(slot)
-                break
-              default:
-                break
-            }
-            break
-          }
-          case 'consonant':
-            switch (chunk.value) {
-              case 'n':
-              case 'N':
-              case 'm':
-              case 'l':
-                previous.type = 'consonant'
-                previous.flow = 'closing'
-                break
-              case 'w':
-              case 'y':
-                previous.type = 'consonant'
-                previous.flow = 'closing'
-                break
-              default:
-                slot = { base: i, head: i }
-                slots.push(slot)
-            }
-            break
-          default:
-            break
+      }
+    }
+
+    j = 0
+    while (j < vowels.length) {
+      const x = vowels[j++]!
+      const y = x.replace(/\$/g, '')
+      const chunk = chunks.slice(i, i + y.length)
+      if (chunk.map(x => x.value).join('') === x) {
+        span.push({ chunk, match: x })
+        i += y.length
+        break
+      }
+    }
+
+    let matched = false
+    j = 0
+    while (j < endConsonants.length) {
+      const x = endConsonants[j++]!
+      const y = x.replace(':', '')
+      const chunk = chunks.slice(i, i + y.length)
+      if (chunk.map(x => x.value).join('') === y) {
+        span.push({ chunk, match: x })
+        i += y.length
+        matched = true
+        break
+      }
+    }
+
+    if (!matched && i === chunks.length - 1) {
+      j = 0
+      while (j < consonants.length) {
+        const x = consonants[j++]!
+        const chunk = chunks.slice(i, i + x.length)
+        if (chunk.map(x => x.value).join('') === x) {
+          span.push({ chunk, match: x })
+          i += x.length
+          break
         }
-        break
-      case 'consonant':
-        switch (chunk.type) {
-          case 'vowel':
-            previous.type = 'vowel'
-            break
-          case 'consonant':
-            switch (chunk.value) {
-              case 'l':
-              case 'L':
-              case 'R':
-              case 'r':
-              case 'w':
-              case 'y':
-                assert(slot)
-                slot.head = i - 1
-                slot = undefined
-                previous.type = 'consonant'
-                break
-              default:
-                previous.type = 'consonant'
-                if (!slot) {
-                  slot = { base: i, head: i }
-                  slots.push(slot)
-                }
-                slot.base = slot.head = i
-                break
-            }
-            break
-          default:
-            break
-        }
-        break
-      default:
-        break
+      }
+    }
+
+    if (span.length) {
+      list.push([...span])
+    } else {
+      const text = chunks
+        .slice(i)
+        .map(x => x.value)
+        .join('')
+      throw new Error(`No match found for ${text}`)
     }
   }
 
-  const size =
-    !slots.length || slots[slots.length - 1]?.head !== chunks.length - 1
-      ? slots.length + 1
-      : slots.length
+  i = 0
+  while (i < list.length) {
+    const last = list[i - 1]
+    const node = list[i++]!
+    if (!last) {
+      continue
+    }
 
-  const closed = size === slots.length
+    const lastSpan = last[last.length - 1]!
+    const nodeSpan = node[0]!
 
-  if (!closed) {
-    slots.push({ base: chunks.length - 1, head: chunks.length - 1 })
-  }
+    // can split
+    if (lastSpan.match.match(':')) {
+      const nodeSpanText = nodeSpan.chunk[0]!.value!
 
-  const prosody: Prosody = []
-  {
-    let i = 0
-    let syllable: Array<string> = []
-    let chunk: Mark = chunks[0]!
-    slots.forEach(slot => {
-      syllable = []
-      while (i <= slot.base) {
-        chunk = chunks[i]!
-        syllable.push(serialize(chunk))
-        i++
+      let left: Array<Mark> = []
+      let right: Array<Mark> = []
+      if (nodeSpanText.match(/^[ieaou]/i)) {
+        const [a, b] = lastSpan.match.split(':')!
+
+        let j = 0
+        let text = ''
+        let array = left
+        while (j < lastSpan.chunk.length) {
+          const mark = lastSpan.chunk[j]!
+          text += mark.value
+          array.push(mark)
+          if (text === a && !right.length) {
+            array = right
+          }
+          j++
+        }
       }
-      const text = syllable.join('')
-      prosody.push({
-        text,
-        stressed: !!text.match(/\^/) === true ? true : undefined,
-        open: chunk.type === 'vowel' ? true : undefined,
-      })
-    })
+
+      if (right.length) {
+        nodeSpan.chunk.unshift(...right)
+      }
+
+      lastSpan.chunk = left
+    }
   }
 
-  return prosody
-}
+  const spans = list.map(spans =>
+    spans.map(span => span.chunk.map(serialize).join('')).join(''),
+  )
 
-export type Prosody = Array<Syllable>
+  i = 0
+  while (i < spans.length) {
+    const node = spans[i]!
+    const next = spans[i + 1]
 
-export type Syllable = {
-  text: string
-  open?: boolean
-  stressed?: boolean
-}
+    if (!next) {
+      break
+    }
 
-function assert(x: unknown): asserts x {
-  if (!x) {
-    throw new Error('assertion failed')
+    if (next.length === 1 && !next.match(/[ieaou]/i)) {
+      spans[i] += next
+      spans.splice(i + 1, 1)
+    } else {
+      i++
+    }
   }
+
+  return spans
 }
 
-function serialize(mark: Mark) {
+export function serialize(mark: Mark) {
   const text: Array<string> = []
   if (mark.value) {
     text.push(mark.value)

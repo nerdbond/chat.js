@@ -1,5 +1,5 @@
 {
-  "version": "3.1.6",
+  "version": "3.1.10",
   "name": "@termsurf/talk",
   "main": "index.js",
   "license": "Apache 2.0",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
-    "@types/lodash": "^4.14.194",
+    "@types/lodash": "^4.17.13",
     "@types/node": "^18.11.17",
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
