@@ -95,6 +95,12 @@ const MARK: Record<string, Mark> = {
     form: 'wall',
     dentalization: true,
   },
+  'd~': {
+    type: 'consonant',
+    value: 'd',
+    form: 'wall',
+    dentalization: true,
+  },
 
   m: { type: 'consonant', value: 'm', form: 'flow' },
   n: { type: 'consonant', value: 'n', form: 'flow' },
@@ -375,7 +381,7 @@ export function group(chunks: Array<Mark>) {
       break
     }
 
-    if (next.length === 1 && !next.match(/[ieaou]/i)) {
+    if (!next.match(/[ieaou]/i)) {
       spans[i] += next
       spans.splice(i + 1, 1)
     } else if (
