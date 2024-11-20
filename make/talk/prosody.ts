@@ -68,6 +68,38 @@ const MARK: Record<string, Mark> = {
   'd*': { type: 'consonant', value: 'd', form: 'wall', click: true },
   'k*': { type: 'consonant', value: 'k', form: 'wall', click: true },
   'p*': { type: 'consonant', value: 'p', form: 'wall', click: true },
+  'n.': { type: 'consonant', value: 'n', form: 'flow', stop: true },
+  'q.': { type: 'consonant', value: 'q', form: 'flow', stop: true },
+  'g.': { type: 'consonant', value: 'g', form: 'wall', stop: true },
+  'd.': { type: 'consonant', value: 'd', form: 'wall', stop: true },
+  'b.': { type: 'consonant', value: 'b', form: 'wall', stop: true },
+  'p.': { type: 'consonant', value: 'p', form: 'wall', stop: true },
+  't.': { type: 'consonant', value: 't', form: 'wall', stop: true },
+  'k.': { type: 'consonant', value: 'k', form: 'wall', stop: true },
+  's.': { type: 'consonant', value: 's', form: 'flow', stop: true },
+  'f.': { type: 'consonant', value: 'f', form: 'flow', stop: true },
+  'v.': { type: 'consonant', value: 'v', form: 'flow', stop: true },
+  'z.': { type: 'consonant', value: 'z', form: 'flow', stop: true },
+  'j.': { type: 'consonant', value: 'j', form: 'flow', stop: true },
+  'x.': { type: 'consonant', value: 'x', form: 'flow', stop: true },
+  'c.': { type: 'consonant', value: 'c', form: 'flow', stop: true },
+
+  'n@': { type: 'consonant', value: 'n', form: 'flow', tense: true },
+  'q@': { type: 'consonant', value: 'q', form: 'flow', tense: true },
+  'g@': { type: 'consonant', value: 'g', form: 'wall', tense: true },
+  'd@': { type: 'consonant', value: 'd', form: 'wall', tense: true },
+  'b@': { type: 'consonant', value: 'b', form: 'wall', tense: true },
+  'p@': { type: 'consonant', value: 'p', form: 'wall', tense: true },
+  't@': { type: 'consonant', value: 't', form: 'wall', tense: true },
+  'k@': { type: 'consonant', value: 'k', form: 'wall', tense: true },
+  's@': { type: 'consonant', value: 's', form: 'flow', tense: true },
+  'f@': { type: 'consonant', value: 'f', form: 'flow', tense: true },
+  'v@': { type: 'consonant', value: 'v', form: 'flow', tense: true },
+  'z@': { type: 'consonant', value: 'z', form: 'flow', tense: true },
+  'j@': { type: 'consonant', value: 'j', form: 'flow', tense: true },
+  'x@': { type: 'consonant', value: 'x', form: 'flow', tense: true },
+  'c@': { type: 'consonant', value: 'c', form: 'flow', tense: true },
+
   'n!': { type: 'consonant', value: 'n', form: 'flow', ejection: true },
   'q!': { type: 'consonant', value: 'q', form: 'flow', ejection: true },
   'g!': { type: 'consonant', value: 'g', form: 'wall', ejection: true },
@@ -140,6 +172,8 @@ const MARK: Record<string, Mark> = {
   L: { type: 'consonant', value: 'L', form: 'flow' },
   r: { type: 'consonant', value: 'r', form: 'flow' },
   R: { type: 'consonant', value: 'R', form: 'flow' },
+  ' ': { type: 'punctuation', value: ' ' },
+  '-': { type: 'punctuation', value: '-' },
 }
 
 const EXTRA_FEATURES: Record<string, Mark> = {
@@ -235,6 +269,15 @@ export function group(chunks: Array<Mark>) {
   while (i < chunks.length) {
     const span: Array<Span> = []
     let j = 0
+
+    const chunk = chunks[i]!
+
+    if (chunk.type === 'punctuation') {
+      span.push({ chunk: [chunk], match: chunk.value! })
+      list.push(span)
+      i++
+      continue
+    }
 
     while (j < fullConsonants.length) {
       const x = fullConsonants[j++]!

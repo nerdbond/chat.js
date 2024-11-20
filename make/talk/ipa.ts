@@ -114,6 +114,9 @@ export default function make(text: string) {
       case '.': // stop
         out.push('̚')
         break
+      case '~': // stop
+        out.push('\u032A')
+        break
       case '@': // tense
         out.push('͈')
         break
