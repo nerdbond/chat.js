@@ -89,6 +89,12 @@ const MARK: Record<string, Mark> = {
   'Q!': { type: 'consonant', value: 'Q', form: 'flow', ejection: true },
   'l!': { type: 'consonant', value: 'l', form: 'flow', ejection: true },
   'r!': { type: 'consonant', value: 'r', form: 'flow', ejection: true },
+  't~': {
+    type: 'consonant',
+    value: 't',
+    form: 'wall',
+    dentalization: true,
+  },
 
   m: { type: 'consonant', value: 'm', form: 'flow' },
   n: { type: 'consonant', value: 'n', form: 'flow' },
@@ -207,7 +213,7 @@ export function chunk(string: string) {
       }
     }
     if (!matched) {
-      console.error(string)
+      console.error(string, string.slice(i))
       throw new Error('Invalid characters found')
     }
   }
@@ -372,6 +378,14 @@ export function group(chunks: Array<Mark>) {
     if (next.length === 1 && !next.match(/[ieaou]/i)) {
       spans[i] += next
       spans.splice(i + 1, 1)
+    } else if (
+      node.match(/[bcdfghjklmnpqrstvwxyz]{2}$/gi) &&
+      !node.match(/(tx|dj)$/i) &&
+      next.match(/^[ieaou]/i)
+    ) {
+      const text = spans[i]!
+      spans[i] = text.slice(0, -1)
+      spans[i + 1] = text.slice(text.length - 1) + spans[i + 1]
     } else {
       i++
     }
@@ -441,6 +455,9 @@ export function serialize(mark: Mark) {
   }
   if (mark.stress) {
     text.push(`^`)
+  }
+  if (mark.dentalization) {
+    text.push(`~`)
   }
   if (mark.pharyngealization) {
     text.push(`Q~`)
