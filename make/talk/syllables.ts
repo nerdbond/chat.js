@@ -483,8 +483,6 @@ ${vEnd('v')}
 ${vEnd('rv')}
 ${vEnd('lv')}
 
-dj
-tx
 b:b
 c:c
 C:C

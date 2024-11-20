@@ -104,6 +104,8 @@ parse(['ma', 'Hh~al', 'li', 'yy'].join(''))
 parse('kIt~a_^b')
 parse(['Ku', 'sQ~', 'ru', 'mill'].join(''))
 parse(['Ka', 'sQ~', 'riy', 'ya'].join(''))
+parse(['KantQ~', 'u_r'].join(''))
+parse(['Qidj', 'rim'].join(''))
 
 function parse(word: string) {
   console.log(word)

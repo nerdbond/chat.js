@@ -385,13 +385,16 @@ export function group(chunks: Array<Mark>) {
       spans[i] += next
       spans.splice(i + 1, 1)
     } else if (
-      node.match(/[bcdfghjklmnpqrstvwxyz]{2}$/gi) &&
       !node.match(/(tx|dj)$/i) &&
-      next.match(/^[ieaou]/i)
+      next.match(/^[ieaou]/i) &&
+      node.match(
+        /[bcdfghjklmnpqrstvwxyz]([bcdfghjklmnpqrstvwxyz](?:[QGhy]~)?)$/gi,
+      )
     ) {
       const text = spans[i]!
-      spans[i] = text.slice(0, -1)
-      spans[i + 1] = text.slice(text.length - 1) + spans[i + 1]
+      spans[i] = text.slice(0, -RegExp.$1.length)
+      spans[i + 1] =
+        text.slice(text.length - RegExp.$1.length) + spans[i + 1]
     } else {
       i++
     }
