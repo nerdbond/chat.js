@@ -2,12 +2,12 @@ import make from '~/index.js'
 
 export enum Simplify {
   VowelNone = 2,
-  VowelOne = 4,
+  VowelOne = 5,
   VowelBasic = 6,
   VowelAll = 8,
 
   ConsonantSimplified = 2,
-  ConsonantAll = 5,
+  ConsonantAll = 4,
 
   ToneNo = 2,
   ToneYes = 3,
@@ -180,42 +180,42 @@ export function simplifyPhoneticsCase(
 function moveToNoDurationText(view: ViewType) {
   const text = view.text.replace(/_/g, '')
   if (text !== view.text) {
-    view.mass = Simplify.DurationNo
+    view.mass *= Simplify.DurationNo
     view.load.duration = 'no'
     view.text = text
   }
 }
 
 function moveToYesDurationText(view: ViewType) {
-  view.mass = Simplify.DurationYes
+  view.mass *= Simplify.DurationYes
   view.load.duration = 'yes'
 }
 
 function moveToNoAspirationText(view: ViewType) {
   const text = view.text.replace(/h~/g, '')
   if (text !== view.text) {
-    view.mass = Simplify.AspirationNo
+    view.mass *= Simplify.AspirationNo
     view.load.aspiration = 'no'
     view.text = text
   }
 }
 
 function moveToYesAspirationText(view: ViewType) {
-  view.mass = Simplify.AspirationYes
+  view.mass *= Simplify.AspirationYes
   view.load.aspiration = 'yes'
 }
 
 function moveToNoToneText(view: ViewType) {
   const text = view.text.replace(/[\-\+]+/g, '')
   if (text !== view.text) {
-    view.mass = Simplify.ToneNo
+    view.mass *= Simplify.ToneNo
     view.load.tone = 'no'
     view.text = text
   }
 }
 
 function moveToYesToneText(view: ViewType) {
-  view.mass = Simplify.ToneYes
+  view.mass *= Simplify.ToneYes
   view.load.tone = 'yes'
 }
 
@@ -226,7 +226,7 @@ function moveToNoVowelText(view: ViewType) {
     .replace(/ð/g, 'u$')
 
   if (text !== view.text) {
-    view.mass = Simplify.VowelNone
+    view.mass *= Simplify.VowelNone
     view.load.vowel = 'none'
     view.text = text
   }
@@ -240,7 +240,7 @@ function moveToOneVowelText(view: ViewType) {
     .replace(/a+/g, 'a')
 
   if (text !== view.text) {
-    view.mass = Simplify.VowelOne
+    view.mass *= Simplify.VowelOne
     view.load.vowel = 'one'
     view.text = text
   }
@@ -266,14 +266,14 @@ function moveToBasicVowelText(view: ViewType) {
     .replace(/ð/g, 'u$')
 
   if (text !== view.text) {
-    view.mass = Simplify.VowelBasic
+    view.mass *= Simplify.VowelBasic
     view.load.vowel = 'basic'
     view.text = text
   }
 }
 
 function moveToAllVowelText(view: ViewType) {
-  view.mass = Simplify.VowelAll
+  view.mass *= Simplify.VowelAll
   view.load.vowel = 'all'
 }
 
@@ -294,14 +294,14 @@ function moveToSimplifiedConsonantText(view: ViewType) {
     .replace(/g/gi, 'k')
 
   if (text !== view.text) {
-    view.mass = Simplify.ConsonantSimplified
+    view.mass *= Simplify.ConsonantSimplified
     view.load.consonant = 'simplified'
     view.text = text
   }
 }
 
 function moveToAllConsonantText(view: ViewType) {
-  view.mass = Simplify.ConsonantAll
+  view.mass *= Simplify.ConsonantAll
   view.load.consonant = 'all'
 }
 
