@@ -2,12 +2,12 @@ import make from '~/index.js'
 
 export enum Simplify {
   VowelNone = 2,
-  VowelOne = 3,
-  VowelBasic = 4,
-  VowelAll = 5,
+  VowelOne = 4,
+  VowelBasic = 6,
+  VowelAll = 8,
 
   ConsonantSimplified = 2,
-  ConsonantAll = 3,
+  ConsonantAll = 5,
 
   ToneNo = 2,
   ToneYes = 3,

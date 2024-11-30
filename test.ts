@@ -112,7 +112,12 @@ parse("'lssamaka_tu 'lbuhh~ayri_a_tu")
 
 console.log('hello', makeTalk.machine('hello'))
 
-console.log('greIdAotxs', simplifyPhonetics('greIdAotxs'))
+console.log(
+  'greIdAotxs',
+  simplifyPhonetics('greIdAotxs').map(
+    view => `${view.text} (${view.mass}) = ${view.code}`,
+  ),
+)
 
 function parse(word: string) {
   console.log(word)
