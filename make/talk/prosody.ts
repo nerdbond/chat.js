@@ -50,6 +50,8 @@ type Mark = {
   form?: 'wall' | 'flow' | 'turn'
 }
 
+type Span = { chunk: Array<Mark>; match: string }
+
 const MARK: Record<string, Mark> = {
   '=.': { type: 'punctuation', value: '.' },
   '=@': { type: 'punctuation', value: '@' },
@@ -259,8 +261,6 @@ export function chunk(string: string) {
   }
   return chunks
 }
-
-type Span = { chunk: Array<Mark>; match: string }
 
 export function group(chunks: Array<Mark>) {
   const list: Array<Array<Span>> = []

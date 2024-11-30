@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@lancejpollard/script-tree':
-        specifier: ^1.1.2
-        version: 1.1.2
+        specifier: ^1.1.4
+        version: 1.1.4
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -396,8 +396,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@lancejpollard/script-tree@1.1.2':
-    resolution: {integrity: sha512-DFszYrcy0hZOwKi1orH3usMt+bV17TzKe2OUCwGp+qs/HWzT5NSay+0iS5QmagAy3HxabSRw7WX/5WU/5bNsjw==}
+  '@lancejpollard/script-tree@1.1.4':
+    resolution: {integrity: sha512-5GzlAzmL/yBw6sc7+XngzOqeli72ce+jFpJv+DRN3huwqLYdZQfD1ymCDu/O5Z4XZYA5uNk9ES9rd+rlmu9B5A==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2140,7 +2140,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@lancejpollard/script-tree@1.1.2': {}
+  '@lancejpollard/script-tree@1.1.4': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:

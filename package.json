@@ -1,10 +1,10 @@
 {
-  "version": "3.2.18",
+  "version": "3.3.0",
   "name": "@termsurf/talk",
   "main": "index.js",
   "license": "Apache 2.0",
   "dependencies": {
-    "@lancejpollard/script-tree": "^1.1.2",
+    "@lancejpollard/script-tree": "^1.1.4",
     "lodash": "^4.17.21"
   },
   "scripts": {

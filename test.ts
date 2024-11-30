@@ -109,6 +109,8 @@ parse(['Qidj', 'rim'].join(''))
 parse(['ma', 'wrid'].join(''))
 parse("'lssamaka_tu 'lbuhh~ayri_a_tu")
 
+console.log('hello', makeTalk.machine('hello'))
+
 function parse(word: string) {
   console.log(word)
   console.log(' ', parseProsody(word).join('-'))
