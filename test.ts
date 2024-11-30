@@ -3,6 +3,7 @@ import makeTalkToIpa from '~/make/talk/ipa.js'
 import makeIpaToTalk from '~/make/ipa/talk.js'
 import makeIpaToXSampa from '~/make/ipa/xsampa.js'
 import parseProsody from '~/make/talk/prosody.js'
+import simplifyPhonetics from './make/talk/simplify'
 
 // talk('txando^', 'txandȯ')
 // talk('surdjyo^', 'suṙdjyȯ')
@@ -110,6 +111,8 @@ parse(['ma', 'wrid'].join(''))
 parse("'lssamaka_tu 'lbuhh~ayri_a_tu")
 
 console.log('hello', makeTalk.machine('hello'))
+
+console.log('greIdAotxs', simplifyPhonetics('greIdAotxs'))
 
 function parse(word: string) {
   console.log(word)

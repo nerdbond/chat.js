@@ -1,3 +1,5 @@
+import make from '~/index.js'
+
 export enum Simplify {
   VowelNone = 2,
   VowelOne = 3,
@@ -17,6 +19,14 @@ export enum Simplify {
   AspirationYes = 3,
 }
 
+const MAX =
+  1 *
+  Simplify.VowelAll *
+  Simplify.ConsonantAll *
+  Simplify.ToneYes *
+  Simplify.DurationYes *
+  Simplify.AspirationYes
+
 export type SimplifyType = {
   vowel: 'none' | 'one' | 'basic' | 'all'
   consonant: 'all' | 'simplified'
@@ -27,6 +37,7 @@ export type SimplifyType = {
 
 export type ViewType = {
   text: string
+  code: string
   mass: number
   load: Record<string, string>
 }
@@ -45,7 +56,7 @@ const TONE: Array<SimplifyType['tone']> = ['yes', 'no']
 const DURATION: Array<SimplifyType['duration']> = ['yes', 'no']
 const ASPIRATION: Array<SimplifyType['aspiration']> = ['yes', 'no']
 
-export function read(text: string) {
+export default function simplifyPhonetics(text: string) {
   const holdBase: Record<string, Array<ViewType>> = {}
 
   VOWEL.forEach(vowel => {
@@ -53,7 +64,7 @@ export function read(text: string) {
       TONE.forEach(tone => {
         DURATION.forEach(duration => {
           ASPIRATION.forEach(aspiration => {
-            const view = readCase(text, {
+            const view = simplifyPhoneticsCase(text, {
               vowel,
               consonant,
               tone,
@@ -79,16 +90,24 @@ export function read(text: string) {
     }
   }
 
+  const massList = holdHead.map(view => view.mass)
+  const min = Math.min(...massList) - 1
+  const max = Math.max(...massList)
+
+  holdHead.forEach(view => {
+    view.mass = normalizeMass(view.mass, min, max)
+  })
+
   holdHead.sort((a, b) => b.mass - a.mass)
 
   return holdHead
 }
 
-export function readCase(
+export function simplifyPhoneticsCase(
   text: string,
   { vowel, consonant, tone, aspiration, duration }: SimplifyType,
 ) {
-  const view: ViewType = { text, mass: 1, load: {} }
+  const view: ViewType = { text, code: '', mass: 1, load: {} }
 
   switch (consonant) {
     case 'simplified': {
@@ -153,48 +172,50 @@ export function readCase(
     }
   }
 
+  view.code = make.machine(view.text)
+
   return view
 }
 
 function moveToNoDurationText(view: ViewType) {
   const text = view.text.replace(/_/g, '')
   if (text !== view.text) {
-    view.mass *= Simplify.DurationNo
+    view.mass = Simplify.DurationNo
     view.load.duration = 'no'
     view.text = text
   }
 }
 
 function moveToYesDurationText(view: ViewType) {
-  view.mass *= Simplify.DurationYes
+  view.mass = Simplify.DurationYes
   view.load.duration = 'yes'
 }
 
 function moveToNoAspirationText(view: ViewType) {
   const text = view.text.replace(/h~/g, '')
   if (text !== view.text) {
-    view.mass *= Simplify.AspirationNo
+    view.mass = Simplify.AspirationNo
     view.load.aspiration = 'no'
     view.text = text
   }
 }
 
 function moveToYesAspirationText(view: ViewType) {
-  view.mass *= Simplify.AspirationYes
+  view.mass = Simplify.AspirationYes
   view.load.aspiration = 'yes'
 }
 
 function moveToNoToneText(view: ViewType) {
   const text = view.text.replace(/[\-\+]+/g, '')
   if (text !== view.text) {
-    view.mass *= Simplify.ToneNo
+    view.mass = Simplify.ToneNo
     view.load.tone = 'no'
     view.text = text
   }
 }
 
 function moveToYesToneText(view: ViewType) {
-  view.mass *= Simplify.ToneYes
+  view.mass = Simplify.ToneYes
   view.load.tone = 'yes'
 }
 
@@ -205,7 +226,7 @@ function moveToNoVowelText(view: ViewType) {
     .replace(/ð/g, 'u$')
 
   if (text !== view.text) {
-    view.mass *= Simplify.VowelNone
+    view.mass = Simplify.VowelNone
     view.load.vowel = 'none'
     view.text = text
   }
@@ -219,7 +240,7 @@ function moveToOneVowelText(view: ViewType) {
     .replace(/a+/g, 'a')
 
   if (text !== view.text) {
-    view.mass *= Simplify.VowelOne
+    view.mass = Simplify.VowelOne
     view.load.vowel = 'one'
     view.text = text
   }
@@ -245,14 +266,14 @@ function moveToBasicVowelText(view: ViewType) {
     .replace(/ð/g, 'u$')
 
   if (text !== view.text) {
-    view.mass *= Simplify.VowelBasic
+    view.mass = Simplify.VowelBasic
     view.load.vowel = 'basic'
     view.text = text
   }
 }
 
 function moveToAllVowelText(view: ViewType) {
-  view.mass *= Simplify.VowelAll
+  view.mass = Simplify.VowelAll
   view.load.vowel = 'all'
 }
 
@@ -273,13 +294,29 @@ function moveToSimplifiedConsonantText(view: ViewType) {
     .replace(/g/gi, 'k')
 
   if (text !== view.text) {
-    view.mass *= Simplify.ConsonantSimplified
+    view.mass = Simplify.ConsonantSimplified
     view.load.consonant = 'simplified'
     view.text = text
   }
 }
 
 function moveToAllConsonantText(view: ViewType) {
-  view.mass *= Simplify.ConsonantAll
+  view.mass = Simplify.ConsonantAll
   view.load.consonant = 'all'
+}
+
+function normalizeMass(
+  value: number,
+  min: number,
+  max: number,
+): number {
+  if (min >= max) {
+    throw new Error(
+      'Minimum value must be less than the maximum value.',
+    )
+  }
+  if (value < min || value > max) {
+    throw new Error('Value must be within the range of min and max.')
+  }
+  return parseFloat(((value - min) / (max - min)).toFixed(4))
 }
