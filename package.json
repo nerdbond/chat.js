@@ -1,5 +1,5 @@
 {
-  "version": "3.4.4",
+  "version": "1.0.0",
   "name": "@cluesurf/talk",
   "main": "index.js",
   "license": "Apache 2.0",
