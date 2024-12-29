@@ -6,11 +6,11 @@
 <br/>
 
 <p align='center'>
-  <img src='https://github.com/termsurf/talk/blob/make/view/view.svg?raw=true' height='312'>
+  <img src='https://github.com/cluesurf/talk/blob/make/view/view.svg?raw=true' height='312'>
 </p>
 
 <h3 align='center'>
-  @termsurf/talk
+  @cluesurf/talk
 </h3>
 <p align='center'>
   A Cross-Cultural Romanization Scheme
@@ -267,22 +267,22 @@ syntax/encoding._
 ## Installation
 
 ```bash
-npm install @termsurf/talk
+npm install @cluesurf/talk
 ```
 
 ## Usage
 
 ```ts
-import make from '@termsurf/talk'
+import make from '@cluesurf/talk'
 
 make('aiyuQaK') // => 'aiyuq̇aḳ'
 ```
 
 ## Libraries
 
-- [`@termsurf/text`](https://github.com/termsurf/text.js): Builds off
+- [`@cluesurf/text`](https://github.com/cluesurf/text.js): Builds off
   Talk spec to convert different scripts/orthographies into TalkText.
-- [`@termsurf/tone`](https://github.com/termsurf/tone): Takes the Talk
+- [`@cluesurf/tone`](https://github.com/cluesurf/tone): Takes the Talk
   formatted ASCII text and [renders it](https://tone.surf) using
   ToneText.
 
@@ -319,7 +319,7 @@ this (for the word `by~oph~am`, which has palatalization, aspiration,
 and a few vowels and non-simplified consonants):
 
 ```js
-import read from '@termsurf/talk/make/read'
+import read from '@cluesurf/talk/make/read'
 
 const list = read('by~oph~am')
 [
@@ -409,8 +409,8 @@ Using the library, you can also count the number of syllables in a word,
 and convert IPA text into ASCII Call Text.
 
 ```ts
-import talk from '@termsurf/talk/make/talk'
-import syllables from '@termsurf/talk/make/talk/syllables'
+import talk from '@cluesurf/talk/make/talk'
+import syllables from '@cluesurf/talk/make/talk/syllables'
 
 talk('kxɯʎʎikʰa̠da̠') // => 'kHOly~ly~ikh~a@da@'
 syllables('kHOly~ly~ikh~a@da@') // => { size: 4 }
@@ -419,20 +419,20 @@ syllables('kHOly~ly~ikh~a@da@') // => { size: 4 }
 ## IPA and XSampa
 
 ```ts
-import talkToIPA from '@termsurf/talk/make/talk/ipa'
-import talkToXSampa from '@termsurf/talk/make/talk/xsampa'
-import ipaToTalk from '@termsurf/talk/make/ipa/talk'
+import talkToIPA from '@cluesurf/talk/make/talk/ipa'
+import talkToXSampa from '@cluesurf/talk/make/talk/xsampa'
+import ipaToTalk from '@cluesurf/talk/make/ipa/talk'
 ```
 
 ## ToneText
 
 You can also transform Talk into
-[ToneText](https://github.com/termsurf/tone) by writing it in ASCII, and
+[ToneText](https://github.com/cluesurf/tone) by writing it in ASCII, and
 running it through the tone text code, which is freely available and
 open source there.
 
 ```ts
-import tone from '@termsurf/tone'
+import tone from '@cluesurf/tone'
 
 // make it for the font.
 tone.make('a+a+si-kiri-imu-') // => 'a3a3si4kiri4imu4'
@@ -442,11 +442,11 @@ tone.make('a+a+si-kiri-imu-') // => 'a3a3si4kiri4imu4'
 
 MIT
 
-## TermSurf
+## ClueSurf
 
-This is being developed by the folks at [TermSurf](https://term.surf), a
+This is being developed by the folks at [ClueSurf](https://clue.surf), a
 California-based project for helping humanity master information and
-computation. Find us on [Twitter](https://twitter.com/termsurf),
-[LinkedIn](https://www.linkedin.com/company/termsurf), and
-[Facebook](https://www.facebook.com/termsurf). Check out our other
-[GitHub projects](https://github.com/termsurf) as well!
+computation. Find us on [Twitter](https://twitter.com/cluesurf),
+[LinkedIn](https://www.linkedin.com/company/cluesurf), and
+[Facebook](https://www.facebook.com/cluesurf). Check out our other
+[GitHub projects](https://github.com/cluesurf) as well!
