@@ -278,6 +278,8 @@ import make from '@cluesurf/talk'
 make('aiyuQaK') // => 'aiyuq̇aḳ'
 ```
 
+_See the `test.ts` file for most up-to-date stuff._
+
 ## Libraries
 
 - [`@cluesurf/text`](https://github.com/cluesurf/text.js): Builds off
