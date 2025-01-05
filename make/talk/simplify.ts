@@ -86,7 +86,7 @@ export default function simplifyPhonetics(text: string) {
     const list = holdBase[line]
     list?.sort((a, b) => b.mass - a.mass)
     const head = list?.[0]
-    if (head && !codeList[head.code]) {
+    if (head && !codeList[head.code] && head.code) {
       holdHead.push(head)
     }
   }
