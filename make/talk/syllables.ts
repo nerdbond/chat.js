@@ -397,7 +397,8 @@ dx
 tx`.split(/\n+/)
 
 export const endConsonants = uniq(
-  `y:g
+  `'
+y:g
 wg
 y:k
 wk
@@ -596,30 +597,6 @@ mjt
 nxt
 mxt
 sn:t
-
-'b
-'c
-'C
-'d
-'f
-'g
-'h
-'j
-'k
-'m
-'n
-'p
-'q
-'r
-'s
-'t
-'v
-'w
-'x
-'y
-'z
-'G
-':Q
 `
     .trim()
     .split(/\n+/)

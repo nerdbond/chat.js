@@ -109,21 +109,23 @@ parse(['KantQ~', 'u_r'].join(''))
 parse(['Qidj', 'rim'].join(''))
 parse(['ma', 'wrid'].join(''))
 parse("'lssamaka_tu 'lbuhh~ayri_a_tu")
+parse(`'lliK'hh~u`)
+parse(`'lQi_'da_tu`)
 
-console.log('hello', makeTalk.machine('hello'))
+// console.log('hello', makeTalk.machine('hello'))
 
-console.log(
-  'greIdAotxs',
-  simplifyPhonetics('greIdAotxs').map(
-    view => `${view.text} (${view.mass}) = ${view.code}`,
-  ),
-)
+// console.log(
+//   'greIdAotxs',
+//   simplifyPhonetics('greIdAotxs').map(
+//     view => `${view.text} (${view.mass}) = ${view.code}`,
+//   ),
+// )
 
-console.log(simplifyPhonetics(`Kad~Q~a_^'`))
+// console.log(simplifyPhonetics(`Kad~Q~a_^'`))
 
 function parse(word: string) {
   console.log(word)
-  console.log(' ', parseProsody(word).join('-'))
+  console.log(' ', parseProsody(word).join(' - '))
   // console.log(
   //   makeTalkToIpa(word),
   //   parseProsody(word).map(makeTalkToIpa).join('-'),
