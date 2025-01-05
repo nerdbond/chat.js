@@ -119,6 +119,8 @@ console.log(
   ),
 )
 
+console.log(simplifyPhonetics(`Kad~Q~a_^'`))
+
 function parse(word: string) {
   console.log(word)
   console.log(' ', parseProsody(word).join('-'))

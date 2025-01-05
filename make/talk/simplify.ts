@@ -81,11 +81,12 @@ export default function simplifyPhonetics(text: string) {
   })
 
   const holdHead: Array<ViewType> = []
+  const codeList: Record<string, boolean> = {}
   for (const line in holdBase) {
     const list = holdBase[line]
     list?.sort((a, b) => b.mass - a.mass)
     const head = list?.[0]
-    if (head) {
+    if (head && !codeList[head.code]) {
       holdHead.push(head)
     }
   }
