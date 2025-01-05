@@ -89,6 +89,9 @@ export default function simplifyPhonetics(text: string) {
     if (head && !codeList[head.code] && head.code) {
       holdHead.push(head)
     }
+    if (head) {
+      codeList[head.code] = true
+    }
   }
 
   const massList = holdHead.map(view => view.mass)
