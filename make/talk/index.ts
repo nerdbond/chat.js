@@ -1,53 +1,10 @@
 import st from '@lancejpollard/script-tree'
 
 // https://en.wikipedia.org/wiki/Hangul_Syllables
-// first hangul jamo syllable
-const Xi = parseInt('AC00', 16)
-// last hangul jamo syllable
-const Xf = parseInt('D7A3', 16)
-let X = Xi
 
-const HANGUL_START = 0xac00 // Start of Hangul Syllables block
-const HANGUL_END = 0xd7a3 // End of Hangul Syllables block
-const HANGUL_COUNT = HANGUL_END - HANGUL_START + 1
-
-// Cryptographic-inspired hash function that produces very different outputs
-// for similar inputs, using a large prime multiplier and XOR operations
-const deterministicHash = (input: string) => {
-  // Using BigInt to handle large numbers without precision loss
-  const LARGE_PRIME = 2305843009213693951n // Mersenne prime 2^61 - 1
-
-  let hash = 0n
-  const chars = Array.from(input)
-
-  for (let i = 0; i < chars.length; i++) {
-    // Get char code and position-based value
-    const charCode = BigInt(chars[i]!.charCodeAt(0))
-    const position = BigInt(i + 1)
-
-    // Combine character and position information
-    const combined = charCode * position
-
-    // Use XOR to mix bits in a reversible way
-    hash = (hash * LARGE_PRIME) ^ combined
-  }
-
-  // Ensure positive value while maintaining uniqueness
-  hash = hash < 0n ? -hash : hash
-
-  return hash
-}
-
-// Maps a string to a Hangul syllable with guaranteed uniqueness
-const mapToHangulDeterministic = (input: string) => {
-  const hash = deterministicHash(input)
-
-  // Use modulo to map to Hangul range while preserving uniqueness properties
-  const hangulOffset = Number(hash % BigInt(HANGUL_COUNT))
-  const codePoint = HANGUL_START + hangulOffset
-
-  return String.fromCharCode(codePoint)
-}
+const HANGUL_START = 0xac00
+const HANGUL_END = 0xd7a3
+let X = HANGUL_START
 
 const m = {
   u: {
@@ -169,7 +126,7 @@ BASE_VOWEL_GLYPHS.forEach(g => {
                 l === '!'
                   ? `${x2}${y}${D[l]}${D[n]}${D[s]}${D[t]}${v2}`
                   : `${x2}${D[l]}${D[n]}${D[s]}${D[t]}${v2}${y}`
-              VOWELS.push({ i, x: '', o })
+              VOWELS.push({ i, x: getNextGlyph(), o })
             })
           })
         })
@@ -179,127 +136,127 @@ BASE_VOWEL_GLYPHS.forEach(g => {
 })
 
 export const SYMBOLS = [
-  { i: '=.', x: '', o: '.' },
-  { i: '=?', x: '', o: '?' },
-  { i: '=!', x: '', o: '!' },
-  { i: '=+', x: '', o: '+' },
-  { i: '=-', x: '', o: '-' },
-  { i: '>', x: '', o: '>' },
-  { i: '<', x: '', o: '<' },
-  { i: '/', x: '', o: '/' },
-  { i: '\\', x: '', o: '\\' },
-  { i: '|', x: '', o: '|' },
-  { i: '(', x: '', o: '(' },
-  { i: ')', x: '', o: ')' },
-  { i: '[', x: '', o: '[' },
-  { i: ']', x: '', o: ']' },
-  { i: ' ', x: '', o: ' ' },
+  { i: '=.', x: '콴', o: '.' },
+  { i: '=?', x: '콵', o: '?' },
+  { i: '=!', x: '콶', o: '!' },
+  { i: '=+', x: '콷', o: '+' },
+  { i: '=-', x: '콸', o: '-' },
+  { i: '>', x: '콹', o: '>' },
+  { i: '<', x: '콺', o: '<' },
+  { i: '/', x: '콻', o: '/' },
+  { i: '\\', x: '콼', o: '\\' },
+  { i: '|', x: '콽', o: '|' },
+  { i: '(', x: '콾', o: '(' },
+  { i: ')', x: '콿', o: ')' },
+  { i: '[', x: '쾀', o: '[' },
+  { i: ']', x: '쾁', o: ']' },
+  { i: ' ', x: '쾂', o: ' ' },
 ]
 
 export const NUMERALS = [
-  { i: '0', x: '', o: '0' },
-  { i: '1', x: '', o: '1' },
-  { i: '2', x: '', o: '2' },
-  { i: '3', x: '', o: '3' },
-  { i: '4', x: '', o: '4' },
-  { i: '5', x: '', o: '5' },
-  { i: '6', x: '', o: '6' },
-  { i: '7', x: '', o: '7' },
-  { i: '8', x: '', o: '8' },
-  { i: '9', x: '', o: '9' },
+  { i: '0', x: '콪', o: '0' },
+  { i: '1', x: '콫', o: '1' },
+  { i: '2', x: '콬', o: '2' },
+  { i: '3', x: '콭', o: '3' },
+  { i: '4', x: '콮', o: '4' },
+  { i: '5', x: '콯', o: '5' },
+  { i: '6', x: '콰', o: '6' },
+  { i: '7', x: '콱', o: '7' },
+  { i: '8', x: '콲', o: '8' },
+  { i: '9', x: '콳', o: '9' },
 ]
 
 export const CONSONANTS = [
-  { i: '@', x: '', o: `@` },
-  { i: 'h~', x: '', o: `ɦ` },
-  { i: 'm', x: '', o: `m` },
-  { i: 'N', x: '', o: `n${m.d.dot}` },
-  { i: 'n', x: '', o: `n` },
-  { i: 'q', x: '', o: `n${m.u.dot}` },
-  { i: 'G~', x: '', o: `g${m.u.tilde}` },
-  { i: 'G', x: '', o: `g${m.u.dot}` },
-  { i: 'g?', x: '', o: `g${m.u.grave}` },
-  { i: 'g', x: '', o: `g` },
-  { i: "'", x: '', o: `'` },
-  { i: 'Q', x: '', o: `q${m.u.dot}` },
-  { i: 'd~Q~', x: '', o: `d${m.d.tilde}` },
-  { i: 'd~', x: '', o: `d` },
-  { i: 'd?', x: '', o: `d${m.d.grave}` },
-  { i: 'd!', x: '', o: `d${m.d.acute}` },
-  { i: 'd*', x: '', o: `d${m.d.down}` },
-  { i: 'd.', x: '', o: `d${m.d.macron}` },
-  { i: 'D', x: '', o: `d${m.d.dot}` },
-  { i: 'dQ~', x: '', o: `d${m.d.tilde}` },
-  { i: 'd', x: '', o: `d` },
-  { i: 'b?', x: '', o: `b${m.d.grave}` },
-  { i: 'b!', x: '', o: `b${m.d.acute}` },
-  { i: 'b', x: '', o: `b` },
-  { i: 'p!', x: '', o: `p${m.u.acute}` },
-  { i: 'p*', x: '', o: `p${m.u.up}` },
-  { i: 'p.', x: '', o: `t${m.u.macron}` },
-  { i: 'p@', x: '', o: `x${m.u.down}` },
-  { i: 'p', x: '', o: `p` },
-  { i: 't~Q~', x: '', o: `t${m.d.tilde}` },
-  { i: 't~', x: '', o: `t` },
-  { i: 'T!', x: '', o: `t${m.d.dot}${m.d.acute}` },
-  { i: 'T', x: '', o: `t${m.d.dot}` },
-  { i: 't!', x: '', o: `t${m.d.acute}` },
-  { i: 't*', x: '', o: `t${m.d.down}` },
-  { i: 'tQ~', x: '', o: `t${m.d.tilde}` },
-  { i: 't@', x: '', o: `t${m.d.up}` },
-  { i: 't.', x: '', o: `t${m.d.macron}` },
-  { i: 't', x: '', o: `t` },
-  { i: 'k!', x: '', o: `k${m.d.acute}` },
-  { i: 'k.', x: '', o: `k${m.d.macron}` },
-  { i: 'k*', x: '', o: `k${m.d.down}` },
-  { i: 'K!', x: '', o: `k${m.d.dot}${m.d.acute}` },
-  { i: 'K', x: '', o: `k${m.d.dot}` },
-  { i: 'k', x: '', o: `k` },
-  { i: 'H!', x: '', o: `h${m.d.dot}${m.d.acute}` },
-  { i: 'H', x: '', o: `h${m.d.dot}` },
-  { i: 'h!', x: '', o: `ħ` },
-  { i: 'h', x: '', o: `h` },
-  { i: 'J', x: '', o: `ȷ̈` },
-  { i: 'j!', x: '', o: `j${m.u.acute}` },
-  { i: 'j', x: '', o: `j` },
-  { i: 'S!', x: '', o: `s${m.d.dot}${m.u.acute}` },
-  { i: 's!', x: '', o: `s${m.u.acute}` },
-  { i: 'S', x: '', o: `s${m.d.dot}` },
-  { i: 'sQ~', x: '', o: `s${m.d.tilde}` },
-  { i: 's@', x: '', o: `s${m.d.up}` },
-  { i: 's', x: '', o: `s` },
-  { i: 'F', x: '', o: `f${m.d.dot}` },
-  { i: 'f!', x: '', o: `f${m.d.acute}` },
-  { i: 'f', x: '', o: `f` },
-  { i: 'V', x: '', o: `v${m.d.dot}` },
-  { i: 'v', x: '', o: `v` },
-  { i: 'z!', x: '', o: `z${m.u.acute}` },
-  { i: 'zQ~', x: '', o: `z${m.d.tilde}` },
-  { i: 'z', x: '', o: `z` },
-  { i: 'Z!', x: '', o: `z${m.d.dot}${m.u.acute}` },
-  { i: 'Z', x: '', o: `z${m.d.dot}` },
-  { i: 'CQ~', x: '', o: `c${m.d.dot}${m.u.tilde}` },
-  { i: 'C', x: '', o: `c${m.d.dot}` },
-  { i: 'cQ~', x: '', o: `c${m.u.tilde}` },
-  { i: 'c', x: '', o: `c` },
-  { i: 'L', x: '', o: `l${m.d.dot}` },
-  { i: 'l*', x: '', o: `l${m.d.down}` },
-  { i: 'lQ~', x: '', o: `l${m.d.tilde}` },
-  { i: 'l', x: '', o: `l` },
-  { i: 'R', x: '', o: `r${m.d.dot}` },
-  { i: 'rQ~', x: '', o: `r${m.u.tilde}` },
-  { i: 'r', x: '', o: `r${m.u.dot}` },
-  { i: 'x!', x: '', o: `x${m.u.acute}` },
-  { i: 'X!', x: '', o: `x${m.d.dot}${m.u.acute}` },
-  { i: 'X', x: '', o: `x${m.d.dot}` },
-  { i: 'x@', x: '', o: `x${m.d.up}` },
-  { i: 'x', x: '', o: `x` },
-  { i: 'W', x: '', o: `w${m.u.dot}` },
-  { i: 'w!', x: '', o: `w${m.u.acute}` },
-  { i: 'w~', x: '', o: `w${m.d.dot}` },
-  { i: 'w', x: '', o: `w` },
-  { i: 'y~', x: '', o: `y${m.u.dot}` },
-  { i: 'y', x: '', o: `y` },
+  { i: '@', x: '켐', o: `@` },
+  { i: 'h~', x: '켑', o: `ɦ` },
+  { i: 'm', x: '켒', o: `m` },
+  { i: 'N', x: '켓', o: `n${m.d.dot}` },
+  { i: 'n', x: '켔', o: `n` },
+  { i: 'q', x: '켕', o: `n${m.u.dot}` },
+  { i: 'G~', x: '켖', o: `g${m.u.tilde}` },
+  { i: 'G', x: '켗', o: `g${m.u.dot}` },
+  { i: 'g?', x: '켘', o: `g${m.u.grave}` },
+  { i: 'g', x: '켙', o: `g` },
+  { i: "'", x: '켚', o: `'` },
+  { i: 'Q', x: '켛', o: `q${m.u.dot}` },
+  { i: 'd~Q~', x: '켜', o: `d${m.d.tilde}` },
+  { i: 'd~', x: '켝', o: `d` },
+  { i: 'd?', x: '켞', o: `d${m.d.grave}` },
+  { i: 'd!', x: '켟', o: `d${m.d.acute}` },
+  { i: 'd*', x: '켠', o: `d${m.d.down}` },
+  { i: 'd.', x: '켡', o: `d${m.d.macron}` },
+  { i: 'D', x: '켢', o: `d${m.d.dot}` },
+  { i: 'dQ~', x: '켣', o: `d${m.d.tilde}` },
+  { i: 'd', x: '켤', o: `d` },
+  { i: 'b?', x: '켥', o: `b${m.d.grave}` },
+  { i: 'b!', x: '켦', o: `b${m.d.acute}` },
+  { i: 'b', x: '켧', o: `b` },
+  { i: 'p!', x: '켨', o: `p${m.u.acute}` },
+  { i: 'p*', x: '켩', o: `p${m.u.up}` },
+  { i: 'p.', x: '켪', o: `t${m.u.macron}` },
+  { i: 'p@', x: '켫', o: `x${m.u.down}` },
+  { i: 'p', x: '켬', o: `p` },
+  { i: 't~Q~', x: '켭', o: `t${m.d.tilde}` },
+  { i: 't~', x: '켮', o: `t` },
+  { i: 'T!', x: '켯', o: `t${m.d.dot}${m.d.acute}` },
+  { i: 'T', x: '켰', o: `t${m.d.dot}` },
+  { i: 't!', x: '켱', o: `t${m.d.acute}` },
+  { i: 't*', x: '켲', o: `t${m.d.down}` },
+  { i: 'tQ~', x: '켳', o: `t${m.d.tilde}` },
+  { i: 't@', x: '켴', o: `t${m.d.up}` },
+  { i: 't.', x: '켵', o: `t${m.d.macron}` },
+  { i: 't', x: '켶', o: `t` },
+  { i: 'k!', x: '켷', o: `k${m.d.acute}` },
+  { i: 'k.', x: '켸', o: `k${m.d.macron}` },
+  { i: 'k*', x: '켹', o: `k${m.d.down}` },
+  { i: 'K!', x: '켺', o: `k${m.d.dot}${m.d.acute}` },
+  { i: 'K', x: '켻', o: `k${m.d.dot}` },
+  { i: 'k', x: '켼', o: `k` },
+  { i: 'H!', x: '켽', o: `h${m.d.dot}${m.d.acute}` },
+  { i: 'H', x: '켾', o: `h${m.d.dot}` },
+  { i: 'h!', x: '켿', o: `ħ` },
+  { i: 'h', x: '콀', o: `h` },
+  { i: 'J', x: '콁', o: `ȷ̈` },
+  { i: 'j!', x: '콂', o: `j${m.u.acute}` },
+  { i: 'j', x: '콃', o: `j` },
+  { i: 'S!', x: '콄', o: `s${m.d.dot}${m.u.acute}` },
+  { i: 's!', x: '콅', o: `s${m.u.acute}` },
+  { i: 'S', x: '콆', o: `s${m.d.dot}` },
+  { i: 'sQ~', x: '콇', o: `s${m.d.tilde}` },
+  { i: 's@', x: '콈', o: `s${m.d.up}` },
+  { i: 's', x: '콉', o: `s` },
+  { i: 'F', x: '콊', o: `f${m.d.dot}` },
+  { i: 'f!', x: '콋', o: `f${m.d.acute}` },
+  { i: 'f', x: '콌', o: `f` },
+  { i: 'V', x: '콍', o: `v${m.d.dot}` },
+  { i: 'v', x: '콎', o: `v` },
+  { i: 'z!', x: '콏', o: `z${m.u.acute}` },
+  { i: 'zQ~', x: '콐', o: `z${m.d.tilde}` },
+  { i: 'z', x: '콑', o: `z` },
+  { i: 'Z!', x: '콒', o: `z${m.d.dot}${m.u.acute}` },
+  { i: 'Z', x: '콓', o: `z${m.d.dot}` },
+  { i: 'CQ~', x: '코', o: `c${m.d.dot}${m.u.tilde}` },
+  { i: 'C', x: '콕', o: `c${m.d.dot}` },
+  { i: 'cQ~', x: '콖', o: `c${m.u.tilde}` },
+  { i: 'c', x: '콗', o: `c` },
+  { i: 'L', x: '콘', o: `l${m.d.dot}` },
+  { i: 'l*', x: '콙', o: `l${m.d.down}` },
+  { i: 'lQ~', x: '콚', o: `l${m.d.tilde}` },
+  { i: 'l', x: '콛', o: `l` },
+  { i: 'R', x: '콜', o: `r${m.d.dot}` },
+  { i: 'rQ~', x: '콝', o: `r${m.u.tilde}` },
+  { i: 'r', x: '콞', o: `r${m.u.dot}` },
+  { i: 'x!', x: '콟', o: `x${m.u.acute}` },
+  { i: 'X!', x: '콠', o: `x${m.d.dot}${m.u.acute}` },
+  { i: 'X', x: '콡', o: `x${m.d.dot}` },
+  { i: 'x@', x: '콢', o: `x${m.d.up}` },
+  { i: 'x', x: '콣', o: `x` },
+  { i: 'W', x: '콤', o: `w${m.u.dot}` },
+  { i: 'w!', x: '콥', o: `w${m.u.acute}` },
+  { i: 'w~', x: '콦', o: `w${m.d.dot}` },
+  { i: 'w', x: '콧', o: `w` },
+  { i: 'y~', x: '콨', o: `y${m.u.dot}` },
+  { i: 'y', x: '콩', o: `y` },
 ]
 
 export const GLYPHS = [
@@ -307,10 +264,9 @@ export const GLYPHS = [
   ...CONSONANTS,
   ...SYMBOLS,
   ...NUMERALS,
-].map(glyph => ({
-  ...glyph,
-  x: mapToHangulDeterministic(glyph.i),
-}))
+]
+
+// LAST used is U+CF82, so can continue from there.
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 const tree = st.fork(GLYPHS)
@@ -336,3 +292,7 @@ make.machine = (text: string): string =>
   make.machineOutputs(text).join('')
 
 export default make
+
+function getNextGlyph() {
+  return String.fromCodePoint(X++)
+}
