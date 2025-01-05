@@ -285,6 +285,8 @@ function moveToSimplifiedConsonantText(view: ViewType) {
     .replace(/G~/g, '')
     .replace(/Q~/g, '')
     .replace(/w~/g, 'w')
+    .replace(/t~/g, 't')
+    .replace(/d~/g, 'd')
     .replace(/b[\?\!@]?/gi, 'p')
     .replace(/p[\?\!\*\.@]?/gi, 'p')
     .replace(/t[\?\!\*\.@]?/gi, 't')

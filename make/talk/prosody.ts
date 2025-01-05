@@ -175,7 +175,6 @@ const MARK: Record<string, Mark> = {
   r: { type: 'consonant', value: 'r', form: 'flow' },
   R: { type: 'consonant', value: 'R', form: 'flow' },
   ' ': { type: 'punctuation', value: ' ' },
-  '-': { type: 'punctuation', value: '-' },
 }
 
 const EXTRA_FEATURES: Record<string, Mark> = {

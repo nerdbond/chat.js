@@ -7,6 +7,48 @@ const Xi = parseInt('AC00', 16)
 const Xf = parseInt('D7A3', 16)
 let X = Xi
 
+const HANGUL_START = 0xac00 // Start of Hangul Syllables block
+const HANGUL_END = 0xd7a3 // End of Hangul Syllables block
+const HANGUL_COUNT = HANGUL_END - HANGUL_START + 1
+
+// Cryptographic-inspired hash function that produces very different outputs
+// for similar inputs, using a large prime multiplier and XOR operations
+const deterministicHash = (input: string) => {
+  // Using BigInt to handle large numbers without precision loss
+  const LARGE_PRIME = 2305843009213693951n // Mersenne prime 2^61 - 1
+
+  let hash = 0n
+  const chars = Array.from(input)
+
+  for (let i = 0; i < chars.length; i++) {
+    // Get char code and position-based value
+    const charCode = BigInt(chars[i]!.charCodeAt(0))
+    const position = BigInt(i + 1)
+
+    // Combine character and position information
+    const combined = charCode * position
+
+    // Use XOR to mix bits in a reversible way
+    hash = (hash * LARGE_PRIME) ^ combined
+  }
+
+  // Ensure positive value while maintaining uniqueness
+  hash = hash < 0n ? -hash : hash
+
+  return hash
+}
+
+// Maps a string to a Hangul syllable with guaranteed uniqueness
+const mapToHangulDeterministic = (input: string) => {
+  const hash = deterministicHash(input)
+
+  // Use modulo to map to Hangul range while preserving uniqueness properties
+  const hangulOffset = Number(hash % BigInt(HANGUL_COUNT))
+  const codePoint = HANGUL_START + hangulOffset
+
+  return String.fromCharCode(codePoint)
+}
+
 const m = {
   u: {
     grave: '\u0300',
@@ -127,7 +169,7 @@ BASE_VOWEL_GLYPHS.forEach(g => {
                 l === '!'
                   ? `${x2}${y}${D[l]}${D[n]}${D[s]}${D[t]}${v2}`
                   : `${x2}${D[l]}${D[n]}${D[s]}${D[t]}${v2}${y}`
-              VOWELS.push({ i, x: getSingleGlyph(), o })
+              VOWELS.push({ i, x: '', o })
             })
           })
         })
@@ -137,123 +179,125 @@ BASE_VOWEL_GLYPHS.forEach(g => {
 })
 
 export const SYMBOLS = [
-  { i: '=.', x: getSingleGlyph(), o: '.' },
-  { i: '=?', x: getSingleGlyph(), o: '?' },
-  { i: '=!', x: getSingleGlyph(), o: '!' },
-  { i: '=+', x: getSingleGlyph(), o: '+' },
-  { i: '=-', x: getSingleGlyph(), o: '-' },
-  { i: '>', x: getSingleGlyph(), o: '>' },
-  { i: '<', x: getSingleGlyph(), o: '<' },
-  { i: '/', x: getSingleGlyph(), o: '/' },
-  { i: '\\', x: getSingleGlyph(), o: '\\' },
-  { i: '|', x: getSingleGlyph(), o: '|' },
-  { i: '(', x: getSingleGlyph(), o: '(' },
-  { i: ')', x: getSingleGlyph(), o: ')' },
-  { i: '[', x: getSingleGlyph(), o: '[' },
-  { i: ']', x: getSingleGlyph(), o: ']' },
-  { i: ' ', x: getSingleGlyph(), o: ' ' },
+  { i: '=.', x: '', o: '.' },
+  { i: '=?', x: '', o: '?' },
+  { i: '=!', x: '', o: '!' },
+  { i: '=+', x: '', o: '+' },
+  { i: '=-', x: '', o: '-' },
+  { i: '>', x: '', o: '>' },
+  { i: '<', x: '', o: '<' },
+  { i: '/', x: '', o: '/' },
+  { i: '\\', x: '', o: '\\' },
+  { i: '|', x: '', o: '|' },
+  { i: '(', x: '', o: '(' },
+  { i: ')', x: '', o: ')' },
+  { i: '[', x: '', o: '[' },
+  { i: ']', x: '', o: ']' },
+  { i: ' ', x: '', o: ' ' },
 ]
 
 export const NUMERALS = [
-  { i: '0', x: getSingleGlyph(), o: '0' },
-  { i: '1', x: getSingleGlyph(), o: '1' },
-  { i: '2', x: getSingleGlyph(), o: '2' },
-  { i: '3', x: getSingleGlyph(), o: '3' },
-  { i: '4', x: getSingleGlyph(), o: '4' },
-  { i: '5', x: getSingleGlyph(), o: '5' },
-  { i: '6', x: getSingleGlyph(), o: '6' },
-  { i: '7', x: getSingleGlyph(), o: '7' },
-  { i: '8', x: getSingleGlyph(), o: '8' },
-  { i: '9', x: getSingleGlyph(), o: '9' },
+  { i: '0', x: '', o: '0' },
+  { i: '1', x: '', o: '1' },
+  { i: '2', x: '', o: '2' },
+  { i: '3', x: '', o: '3' },
+  { i: '4', x: '', o: '4' },
+  { i: '5', x: '', o: '5' },
+  { i: '6', x: '', o: '6' },
+  { i: '7', x: '', o: '7' },
+  { i: '8', x: '', o: '8' },
+  { i: '9', x: '', o: '9' },
 ]
 
 export const CONSONANTS = [
-  { i: '@', x: getSingleGlyph(), o: `@` },
-  { i: 'h~', x: getSingleGlyph(), o: `ɦ` },
-  { i: 'm', x: getSingleGlyph(), o: `m` },
-  { i: 'N', x: getSingleGlyph(), o: `n${m.d.dot}` },
-  { i: 'n', x: getSingleGlyph(), o: `n` },
-  { i: 'q', x: getSingleGlyph(), o: `n${m.u.dot}` },
-  { i: 'G~', x: getSingleGlyph(), o: `g${m.u.tilde}` },
-  { i: 'G', x: getSingleGlyph(), o: `g${m.u.dot}` },
-  { i: 'g?', x: getSingleGlyph(), o: `g${m.u.grave}` },
-  { i: 'g', x: getSingleGlyph(), o: `g` },
-  { i: "'", x: getSingleGlyph(), o: `'` },
-  { i: 'Q', x: getSingleGlyph(), o: `q${m.u.dot}` },
-  { i: 'd?', x: getSingleGlyph(), o: `d${m.d.grave}` },
-  { i: 'd!', x: getSingleGlyph(), o: `d${m.d.acute}` },
-  { i: 'd*', x: getSingleGlyph(), o: `d${m.d.down}` },
-  { i: 'd.', x: getSingleGlyph(), o: `d${m.d.macron}` },
-  { i: 'D', x: getSingleGlyph(), o: `d${m.d.dot}` },
-  { i: 'dQ~', x: getSingleGlyph(), o: `d${m.d.tilde}` },
-  { i: 'd', x: getSingleGlyph(), o: `d` },
-  { i: 'b?', x: getSingleGlyph(), o: `b${m.d.grave}` },
-  { i: 'b!', x: getSingleGlyph(), o: `b${m.d.acute}` },
-  { i: 'b', x: getSingleGlyph(), o: `b` },
-  { i: 'p!', x: getSingleGlyph(), o: `p${m.u.acute}` },
-  { i: 'p*', x: getSingleGlyph(), o: `p${m.u.up}` },
-  { i: 'p.', x: getSingleGlyph(), o: `t${m.u.macron}` },
-  { i: 'p@', x: getSingleGlyph(), o: `x${m.u.down}` },
-  { i: 'p', x: getSingleGlyph(), o: `p` },
-  { i: 'T!', x: getSingleGlyph(), o: `t${m.d.dot}${m.d.acute}` },
-  { i: 'T', x: getSingleGlyph(), o: `t${m.d.dot}` },
-  { i: 't!', x: getSingleGlyph(), o: `t${m.d.acute}` },
-  { i: 't*', x: getSingleGlyph(), o: `t${m.d.down}` },
-  { i: 'tQ~', x: getSingleGlyph(), o: `t${m.d.tilde}` },
-  { i: 't@', x: getSingleGlyph(), o: `t${m.d.up}` },
-  { i: 't.', x: getSingleGlyph(), o: `t${m.d.macron}` },
-  { i: 't', x: getSingleGlyph(), o: `t` },
-  { i: 'k!', x: getSingleGlyph(), o: `k${m.d.acute}` },
-  { i: 'k.', x: getSingleGlyph(), o: `k${m.d.macron}` },
-  { i: 'k*', x: getSingleGlyph(), o: `k${m.d.down}` },
-  { i: 'K!', x: getSingleGlyph(), o: `k${m.d.dot}${m.d.acute}` },
-  { i: 'K', x: getSingleGlyph(), o: `k${m.d.dot}` },
-  { i: 'k', x: getSingleGlyph(), o: `k` },
-  { i: 'H!', x: getSingleGlyph(), o: `h${m.d.dot}${m.d.acute}` },
-  { i: 'H', x: getSingleGlyph(), o: `h${m.d.dot}` },
-  { i: 'h!', x: getSingleGlyph(), o: `ħ` },
-  { i: 'h', x: getSingleGlyph(), o: `h` },
-  { i: 'J', x: getSingleGlyph(), o: `ȷ̈` },
-  { i: 'j!', x: getSingleGlyph(), o: `j${m.u.acute}` },
-  { i: 'j', x: getSingleGlyph(), o: `j` },
-  { i: 'S!', x: getSingleGlyph(), o: `s${m.d.dot}${m.u.acute}` },
-  { i: 's!', x: getSingleGlyph(), o: `s${m.u.acute}` },
-  { i: 'S', x: getSingleGlyph(), o: `s${m.d.dot}` },
-  { i: 'sQ~', x: getSingleGlyph(), o: `s${m.d.tilde}` },
-  { i: 's@', x: getSingleGlyph(), o: `s${m.d.up}` },
-  { i: 's', x: getSingleGlyph(), o: `s` },
-  { i: 'F', x: getSingleGlyph(), o: `f${m.d.dot}` },
-  { i: 'f!', x: getSingleGlyph(), o: `f${m.d.acute}` },
-  { i: 'f', x: getSingleGlyph(), o: `f` },
-  { i: 'V', x: getSingleGlyph(), o: `v${m.d.dot}` },
-  { i: 'v', x: getSingleGlyph(), o: `v` },
-  { i: 'z!', x: getSingleGlyph(), o: `z${m.u.acute}` },
-  { i: 'zQ~', x: getSingleGlyph(), o: `z${m.d.tilde}` },
-  { i: 'z', x: getSingleGlyph(), o: `z` },
-  { i: 'Z!', x: getSingleGlyph(), o: `z${m.d.dot}${m.u.acute}` },
-  { i: 'Z', x: getSingleGlyph(), o: `z${m.d.dot}` },
-  { i: 'CQ~', x: getSingleGlyph(), o: `c${m.d.dot}${m.u.tilde}` },
-  { i: 'C', x: getSingleGlyph(), o: `c${m.d.dot}` },
-  { i: 'cQ~', x: getSingleGlyph(), o: `c${m.u.tilde}` },
-  { i: 'c', x: getSingleGlyph(), o: `c` },
-  { i: 'L', x: getSingleGlyph(), o: `l${m.d.dot}` },
-  { i: 'l*', x: getSingleGlyph(), o: `l${m.d.down}` },
-  { i: 'lQ~', x: getSingleGlyph(), o: `l${m.d.tilde}` },
-  { i: 'l', x: getSingleGlyph(), o: `l` },
-  { i: 'R', x: getSingleGlyph(), o: `r${m.d.dot}` },
-  { i: 'rQ~', x: getSingleGlyph(), o: `r${m.u.tilde}` },
-  { i: 'r', x: getSingleGlyph(), o: `r${m.u.dot}` },
-  { i: 'x!', x: getSingleGlyph(), o: `x${m.u.acute}` },
-  { i: 'X!', x: getSingleGlyph(), o: `x${m.d.dot}${m.u.acute}` },
-  { i: 'X', x: getSingleGlyph(), o: `x${m.d.dot}` },
-  { i: 'x@', x: getSingleGlyph(), o: `x${m.d.up}` },
-  { i: 'x', x: getSingleGlyph(), o: `x` },
-  { i: 'W', x: getSingleGlyph(), o: `w${m.u.dot}` },
-  { i: 'w!', x: getSingleGlyph(), o: `w${m.u.acute}` },
-  { i: 'w~', x: getSingleGlyph(), o: `w${m.d.dot}` },
-  { i: 'w', x: getSingleGlyph(), o: `w` },
-  { i: 'y~', x: getSingleGlyph(), o: `y${m.u.dot}` },
-  { i: 'y', x: getSingleGlyph(), o: `y` },
+  { i: '@', x: '', o: `@` },
+  { i: 'h~', x: '', o: `ɦ` },
+  { i: 'm', x: '', o: `m` },
+  { i: 'N', x: '', o: `n${m.d.dot}` },
+  { i: 'n', x: '', o: `n` },
+  { i: 'q', x: '', o: `n${m.u.dot}` },
+  { i: 'G~', x: '', o: `g${m.u.tilde}` },
+  { i: 'G', x: '', o: `g${m.u.dot}` },
+  { i: 'g?', x: '', o: `g${m.u.grave}` },
+  { i: 'g', x: '', o: `g` },
+  { i: "'", x: '', o: `'` },
+  { i: 'Q', x: '', o: `q${m.u.dot}` },
+  { i: 'd~', x: '', o: `d` },
+  { i: 'd?', x: '', o: `d${m.d.grave}` },
+  { i: 'd!', x: '', o: `d${m.d.acute}` },
+  { i: 'd*', x: '', o: `d${m.d.down}` },
+  { i: 'd.', x: '', o: `d${m.d.macron}` },
+  { i: 'D', x: '', o: `d${m.d.dot}` },
+  { i: 'dQ~', x: '', o: `d${m.d.tilde}` },
+  { i: 'd', x: '', o: `d` },
+  { i: 'b?', x: '', o: `b${m.d.grave}` },
+  { i: 'b!', x: '', o: `b${m.d.acute}` },
+  { i: 'b', x: '', o: `b` },
+  { i: 'p!', x: '', o: `p${m.u.acute}` },
+  { i: 'p*', x: '', o: `p${m.u.up}` },
+  { i: 'p.', x: '', o: `t${m.u.macron}` },
+  { i: 'p@', x: '', o: `x${m.u.down}` },
+  { i: 'p', x: '', o: `p` },
+  { i: 't~', x: '', o: `t` },
+  { i: 'T!', x: '', o: `t${m.d.dot}${m.d.acute}` },
+  { i: 'T', x: '', o: `t${m.d.dot}` },
+  { i: 't!', x: '', o: `t${m.d.acute}` },
+  { i: 't*', x: '', o: `t${m.d.down}` },
+  { i: 'tQ~', x: '', o: `t${m.d.tilde}` },
+  { i: 't@', x: '', o: `t${m.d.up}` },
+  { i: 't.', x: '', o: `t${m.d.macron}` },
+  { i: 't', x: '', o: `t` },
+  { i: 'k!', x: '', o: `k${m.d.acute}` },
+  { i: 'k.', x: '', o: `k${m.d.macron}` },
+  { i: 'k*', x: '', o: `k${m.d.down}` },
+  { i: 'K!', x: '', o: `k${m.d.dot}${m.d.acute}` },
+  { i: 'K', x: '', o: `k${m.d.dot}` },
+  { i: 'k', x: '', o: `k` },
+  { i: 'H!', x: '', o: `h${m.d.dot}${m.d.acute}` },
+  { i: 'H', x: '', o: `h${m.d.dot}` },
+  { i: 'h!', x: '', o: `ħ` },
+  { i: 'h', x: '', o: `h` },
+  { i: 'J', x: '', o: `ȷ̈` },
+  { i: 'j!', x: '', o: `j${m.u.acute}` },
+  { i: 'j', x: '', o: `j` },
+  { i: 'S!', x: '', o: `s${m.d.dot}${m.u.acute}` },
+  { i: 's!', x: '', o: `s${m.u.acute}` },
+  { i: 'S', x: '', o: `s${m.d.dot}` },
+  { i: 'sQ~', x: '', o: `s${m.d.tilde}` },
+  { i: 's@', x: '', o: `s${m.d.up}` },
+  { i: 's', x: '', o: `s` },
+  { i: 'F', x: '', o: `f${m.d.dot}` },
+  { i: 'f!', x: '', o: `f${m.d.acute}` },
+  { i: 'f', x: '', o: `f` },
+  { i: 'V', x: '', o: `v${m.d.dot}` },
+  { i: 'v', x: '', o: `v` },
+  { i: 'z!', x: '', o: `z${m.u.acute}` },
+  { i: 'zQ~', x: '', o: `z${m.d.tilde}` },
+  { i: 'z', x: '', o: `z` },
+  { i: 'Z!', x: '', o: `z${m.d.dot}${m.u.acute}` },
+  { i: 'Z', x: '', o: `z${m.d.dot}` },
+  { i: 'CQ~', x: '', o: `c${m.d.dot}${m.u.tilde}` },
+  { i: 'C', x: '', o: `c${m.d.dot}` },
+  { i: 'cQ~', x: '', o: `c${m.u.tilde}` },
+  { i: 'c', x: '', o: `c` },
+  { i: 'L', x: '', o: `l${m.d.dot}` },
+  { i: 'l*', x: '', o: `l${m.d.down}` },
+  { i: 'lQ~', x: '', o: `l${m.d.tilde}` },
+  { i: 'l', x: '', o: `l` },
+  { i: 'R', x: '', o: `r${m.d.dot}` },
+  { i: 'rQ~', x: '', o: `r${m.u.tilde}` },
+  { i: 'r', x: '', o: `r${m.u.dot}` },
+  { i: 'x!', x: '', o: `x${m.u.acute}` },
+  { i: 'X!', x: '', o: `x${m.d.dot}${m.u.acute}` },
+  { i: 'X', x: '', o: `x${m.d.dot}` },
+  { i: 'x@', x: '', o: `x${m.d.up}` },
+  { i: 'x', x: '', o: `x` },
+  { i: 'W', x: '', o: `w${m.u.dot}` },
+  { i: 'w!', x: '', o: `w${m.u.acute}` },
+  { i: 'w~', x: '', o: `w${m.d.dot}` },
+  { i: 'w', x: '', o: `w` },
+  { i: 'y~', x: '', o: `y${m.u.dot}` },
+  { i: 'y', x: '', o: `y` },
 ]
 
 export const GLYPHS = [
@@ -261,7 +305,10 @@ export const GLYPHS = [
   ...CONSONANTS,
   ...SYMBOLS,
   ...NUMERALS,
-]
+].map(glyph => ({
+  ...glyph,
+  x: mapToHangulDeterministic(glyph.i),
+}))
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 const tree = st.fork(GLYPHS)
@@ -287,11 +334,3 @@ make.machine = (text: string): string =>
   make.machineOutputs(text).join('')
 
 export default make
-
-function getSingleGlyph() {
-  if (X === Xf) {
-    throw new Error(`Too many glyphs created`)
-  }
-
-  return String.fromCodePoint(X++)
-}
