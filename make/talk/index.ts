@@ -136,8 +136,39 @@ BASE_VOWEL_GLYPHS.forEach(g => {
   })
 })
 
+export const SYMBOLS = [
+  { i: '=.', x: getSingleGlyph(), o: '.' },
+  { i: '=?', x: getSingleGlyph(), o: '?' },
+  { i: '=!', x: getSingleGlyph(), o: '!' },
+  { i: '=+', x: getSingleGlyph(), o: '+' },
+  { i: '=-', x: getSingleGlyph(), o: '-' },
+  { i: '>', x: getSingleGlyph(), o: '>' },
+  { i: '<', x: getSingleGlyph(), o: '<' },
+  { i: '/', x: getSingleGlyph(), o: '/' },
+  { i: '\\', x: getSingleGlyph(), o: '\\' },
+  { i: '|', x: getSingleGlyph(), o: '|' },
+  { i: '(', x: getSingleGlyph(), o: '(' },
+  { i: ')', x: getSingleGlyph(), o: ')' },
+  { i: '[', x: getSingleGlyph(), o: '[' },
+  { i: ']', x: getSingleGlyph(), o: ']' },
+  { i: ' ', x: getSingleGlyph(), o: ' ' },
+]
+
+export const NUMERALS = [
+  { i: '0', x: getSingleGlyph(), o: '0' },
+  { i: '1', x: getSingleGlyph(), o: '1' },
+  { i: '2', x: getSingleGlyph(), o: '2' },
+  { i: '3', x: getSingleGlyph(), o: '3' },
+  { i: '4', x: getSingleGlyph(), o: '4' },
+  { i: '5', x: getSingleGlyph(), o: '5' },
+  { i: '6', x: getSingleGlyph(), o: '6' },
+  { i: '7', x: getSingleGlyph(), o: '7' },
+  { i: '8', x: getSingleGlyph(), o: '8' },
+  { i: '9', x: getSingleGlyph(), o: '9' },
+]
+
 export const CONSONANTS = [
-  { i: '@', x: getSingleGlyph(), o: `` },
+  { i: '@', x: getSingleGlyph(), o: `@` },
   { i: 'h~', x: getSingleGlyph(), o: `ɦ` },
   { i: 'm', x: getSingleGlyph(), o: `m` },
   { i: 'N', x: getSingleGlyph(), o: `n${m.d.dot}` },
@@ -164,10 +195,7 @@ export const CONSONANTS = [
   { i: 'p.', x: getSingleGlyph(), o: `t${m.u.macron}` },
   { i: 'p@', x: getSingleGlyph(), o: `x${m.u.down}` },
   { i: 'p', x: getSingleGlyph(), o: `p` },
-  {
-    i: 'T!',
-    o: `t${m.d.dot}${m.d.acute}`,
-  },
+  { i: 'T!', x: getSingleGlyph(), o: `t${m.d.dot}${m.d.acute}` },
   { i: 'T', x: getSingleGlyph(), o: `t${m.d.dot}` },
   { i: 't!', x: getSingleGlyph(), o: `t${m.d.acute}` },
   { i: 't*', x: getSingleGlyph(), o: `t${m.d.down}` },
@@ -175,7 +203,6 @@ export const CONSONANTS = [
   { i: 't@', x: getSingleGlyph(), o: `t${m.d.up}` },
   { i: 't.', x: getSingleGlyph(), o: `t${m.d.macron}` },
   { i: 't', x: getSingleGlyph(), o: `t` },
-
   { i: 'k!', x: getSingleGlyph(), o: `k${m.d.acute}` },
   { i: 'k.', x: getSingleGlyph(), o: `k${m.d.macron}` },
   { i: 'k*', x: getSingleGlyph(), o: `k${m.d.down}` },
@@ -227,37 +254,6 @@ export const CONSONANTS = [
   { i: 'w', x: getSingleGlyph(), o: `w` },
   { i: 'y~', x: getSingleGlyph(), o: `y${m.u.dot}` },
   { i: 'y', x: getSingleGlyph(), o: `y` },
-]
-
-export const SYMBOLS = [
-  { i: '=.', x: getSingleGlyph(), o: '.' },
-  { i: '=?', x: getSingleGlyph(), o: '?' },
-  { i: '=!', x: getSingleGlyph(), o: '!' },
-  { i: '=+', x: getSingleGlyph(), o: '+' },
-  { i: '=-', x: getSingleGlyph(), o: '-' },
-  { i: '>', x: getSingleGlyph(), o: '>' },
-  { i: '<', x: getSingleGlyph(), o: '<' },
-  { i: '/', x: getSingleGlyph(), o: '/' },
-  { i: '\\', x: getSingleGlyph(), o: '\\' },
-  { i: '|', x: getSingleGlyph(), o: '|' },
-  { i: '(', x: getSingleGlyph(), o: '(' },
-  { i: ')', x: getSingleGlyph(), o: ')' },
-  { i: '[', x: getSingleGlyph(), o: '[' },
-  { i: ']', x: getSingleGlyph(), o: ']' },
-  { i: ' ', x: getSingleGlyph(), o: ' ' },
-]
-
-export const NUMERALS = [
-  { i: '0', x: getSingleGlyph(), o: '0' },
-  { i: '1', x: getSingleGlyph(), o: '1' },
-  { i: '2', x: getSingleGlyph(), o: '2' },
-  { i: '3', x: getSingleGlyph(), o: '3' },
-  { i: '4', x: getSingleGlyph(), o: '4' },
-  { i: '5', x: getSingleGlyph(), o: '5' },
-  { i: '6', x: getSingleGlyph(), o: '6' },
-  { i: '7', x: getSingleGlyph(), o: '7' },
-  { i: '8', x: getSingleGlyph(), o: '8' },
-  { i: '9', x: getSingleGlyph(), o: '9' },
 ]
 
 export const GLYPHS = [
