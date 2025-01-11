@@ -185,9 +185,9 @@ export function simplifyPhoneticsCase(
 
 function moveToNoDurationText(view: ViewType) {
   const text = view.text.replace(/_/g, '')
+  view.load.duration = 'no'
   if (text !== view.text) {
     view.mass *= Simplify.DurationNo
-    view.load.duration = 'no'
     view.text = text
   }
 }
@@ -199,9 +199,10 @@ function moveToYesDurationText(view: ViewType) {
 
 function moveToNoAspirationText(view: ViewType) {
   const text = view.text.replace(/h~/g, '')
+  view.load.aspiration = 'no'
+
   if (text !== view.text) {
     view.mass *= Simplify.AspirationNo
-    view.load.aspiration = 'no'
     view.text = text
   }
 }
@@ -213,9 +214,9 @@ function moveToYesAspirationText(view: ViewType) {
 
 function moveToNoToneText(view: ViewType) {
   const text = view.text.replace(/[\-\+]+/g, '')
+  view.load.tone = 'no'
   if (text !== view.text) {
     view.mass *= Simplify.ToneNo
-    view.load.tone = 'no'
     view.text = text
   }
 }
@@ -228,12 +229,12 @@ function moveToYesToneText(view: ViewType) {
 function moveToNoVowelText(view: ViewType) {
   const text = view.text
     .replace(/u\$/g, 'ð') // this isn't a vowel, it's the English r.
-    .replace(/[aeiou][$\^&_\+\-\!@]*/gi, '')
+    .replace(/[aeiou][\$\^&_\+\-\!@]*/gi, '')
     .replace(/ð/g, 'u$')
+  view.load.vowel = 'none'
 
   if (text !== view.text) {
     view.mass *= Simplify.VowelNone
-    view.load.vowel = 'none'
     view.text = text
   }
 }
@@ -245,10 +246,10 @@ function moveToOneVowelText(view: ViewType) {
     .replace(/[aeiou][\^&_\+\-\!@]*/gi, 'a')
     .replace(/ð/g, 'u$')
     .replace(/a+/g, 'a')
+  view.load.vowel = 'one'
 
   if (text !== view.text) {
     view.mass *= Simplify.VowelOne
-    view.load.vowel = 'one'
     view.text = text
   }
 }
@@ -274,10 +275,10 @@ function moveToBasicVowelText(view: ViewType) {
     .replace(/ou/g, 'u')
     .replace(/oi/g, 'i')
     .replace(/ð/g, 'u$')
+  view.load.vowel = 'basic'
 
   if (text !== view.text) {
     view.mass *= Simplify.VowelBasic
-    view.load.vowel = 'basic'
     view.text = text
   }
 }
@@ -307,10 +308,10 @@ function moveToSimplifiedConsonantText(view: ViewType) {
     .replace(/z/gi, 's')
     .replace(/d/gi, 't')
     .replace(/g/gi, 'k')
+  view.load.consonant = 'simplified'
 
   if (text !== view.text) {
     view.mass *= Simplify.ConsonantSimplified
-    view.load.consonant = 'simplified'
     view.text = text
   }
 }
