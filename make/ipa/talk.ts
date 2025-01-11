@@ -90,9 +90,8 @@ export default function make(ipa: string, options = { tones: true }) {
     const part = parts[i++]
     switch (part) {
       case ' ':
-        throw new Error(
-          `Space not supported: (${parts.slice(0, i).join('')})`,
-        )
+        addPunctuation(' ')
+        break
       case '\u200c': // non-width joiner
         break
       case 'ʰ':
@@ -408,6 +407,9 @@ export default function make(ipa: string, options = { tones: true }) {
       case 'ɻ':
         addVowel('u$')
         break
+      case 'ɚ':
+        addVowel('u$')
+        break
       case 'ʍ':
         addConsonant('w')
         addFeature('voiceless')
@@ -459,7 +461,7 @@ export default function make(ipa: string, options = { tones: true }) {
         addFeature('velarization')
         break
       case 'ɝ':
-        addVowel('u~')
+        addVowel('u$')
         break
       case 'ŏ':
         addVowel('o')
