@@ -125,6 +125,9 @@ parse(`'lQi_'da_tu`)
 parse('u$U^nIq')
 parse('bu$U^nIq')
 parse('bou$U^nIq')
+parse('sa^kOu$')
+parse('xakiu$U')
+parse('ske^ytbou$dIq')
 
 function parse(word: string) {
   console.log(word)

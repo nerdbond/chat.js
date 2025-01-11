@@ -399,30 +399,30 @@ tx`.split(/\n+/)
 
 export const endConsonants = uniq(
   `'
-y:g
+yg
 wg
-y:k
+yk
 wk
 ts
 tz
-y:d
+yd
 wd
-y:t
+yt
 wt
-y:b
+yb
 wb
-y:p
+yp
 wp
-y:z
-y:s
+yz
+ys
 wz
 ws
-y:j
-y:x
+yj
+yx
 wj
 wx
-y:C
-y:c
+yC
+yc
 w:r
 wC
 wc
@@ -507,7 +507,7 @@ t:t
 v:v
 w:w
 x:x
-y:y
+yy
 z:z
 D:D
 F:F
@@ -525,7 +525,7 @@ T:T
 V:V
 W:W
 X:X
-Y:Y
+YY
 Z:Z
 
 l:kt
@@ -673,6 +673,16 @@ u$E
 u$A
 u$O
 u$U
+iu$
+eu$
+au$
+ou$
+uu$
+Iu$
+Eu$
+Au$
+Ou$
+Uu$
 i
 e
 a
