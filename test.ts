@@ -122,6 +122,9 @@ parse(`'lQi_'da_tu`)
 // )
 
 // console.log(simplifyPhonetics(`Kad~Q~a_^'`))
+parse('u$U^nIq')
+parse('bu$U^nIq')
+parse('bou$U^nIq')
 
 function parse(word: string) {
   console.log(word)

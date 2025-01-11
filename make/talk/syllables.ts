@@ -75,7 +75,8 @@ ${prefix}j
 `
 
 export const startConsonants = uniq(
-  `bl
+  `u$
+bl
 bj
 bz
 bs
@@ -662,7 +663,17 @@ prvsk
 )
 
 export const vowels = uniq(
-  `i
+  `u$i
+u$e
+u$a
+u$o
+u$u
+u$I
+u$E
+u$A
+u$O
+u$U
+i
 e
 a
 o
