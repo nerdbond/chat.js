@@ -1,9 +1,10 @@
 import st from '@lancejpollard/script-tree'
 
 // https://en.wikipedia.org/wiki/Hangul_Syllables
+// LAST used is U+CF82, so can continue from there.
 
 const HANGUL_START = 0xac00
-const HANGUL_END = 0xd7a3
+// const HANGUL_END = 0xd7a3
 let X = HANGUL_START
 
 const m = {
@@ -171,6 +172,7 @@ export const CONSONANTS = [
   { i: 'h~', x: '켑', o: `ɦ` },
   { i: 'm', x: '켒', o: `m` },
   { i: 'N', x: '켓', o: `n${m.d.dot}` },
+  { i: 'n~', x: '쾃', o: `n` },
   { i: 'n', x: '켔', o: `n` },
   { i: 'q', x: '켕', o: `n${m.u.dot}` },
   { i: 'G~', x: '켖', o: `g${m.u.tilde}` },
@@ -265,8 +267,6 @@ export const GLYPHS = [
   ...SYMBOLS,
   ...NUMERALS,
 ]
-
-// LAST used is U+CF82, so can continue from there.
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 const tree = st.fork(GLYPHS)
