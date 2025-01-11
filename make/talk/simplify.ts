@@ -59,6 +59,8 @@ const ASPIRATION: Array<SimplifyType['aspiration']> = ['yes', 'no']
 export default function simplifyPhonetics(text: string) {
   const holdBase: Record<string, Array<ViewType>> = {}
 
+  text = text.replace(/=(.)/g, '')
+
   VOWEL.forEach(vowel => {
     CONSONANT.forEach(consonant => {
       TONE.forEach(tone => {
@@ -226,7 +228,7 @@ function moveToYesToneText(view: ViewType) {
 function moveToNoVowelText(view: ViewType) {
   const text = view.text
     .replace(/u\$/g, 'ð') // this isn't a vowel, it's the English r.
-    .replace(/[aeiou][\^&_\+\-\!@]*/gi, '')
+    .replace(/[aeiou][$\^&_\+\-\!@]*/gi, '')
     .replace(/ð/g, 'u$')
 
   if (text !== view.text) {
@@ -239,7 +241,8 @@ function moveToNoVowelText(view: ViewType) {
 function moveToOneVowelText(view: ViewType) {
   const text = view.text
     .replace(/u\$/g, 'ð')
-    .replace(/[aeiou][\^&]*/gi, 'a')
+    .replace(/([aeiou])\$/gi, (_, $1) => `${$1}`)
+    .replace(/[aeiou][\^&_\+\-\!@]*/gi, 'a')
     .replace(/ð/g, 'u$')
     .replace(/a+/g, 'a')
 
@@ -253,7 +256,10 @@ function moveToOneVowelText(view: ViewType) {
 function moveToBasicVowelText(view: ViewType) {
   const text = view.text
     .replace(/u\$/g, 'ð')
-    .replace(/([aeiou])[\^&]*/gi, (_, $1: string) => $1.toLowerCase())
+    .replace(/([aeiou])\$/gi, (_, $1) => `${$1}`)
+    .replace(/([aeiou])[\^&_\+\-\!@]*/gi, (_, $1: string) =>
+      $1.toLowerCase(),
+    )
     .replace(/a+/g, 'a')
     .replace(/e+/g, 'e')
     .replace(/i+/g, 'i')
