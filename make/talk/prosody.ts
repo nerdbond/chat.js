@@ -123,6 +123,12 @@ const MARK: Record<string, Mark> = {
   'Q!': { type: 'consonant', value: 'Q', form: 'flow', ejection: true },
   'l!': { type: 'consonant', value: 'l', form: 'flow', ejection: true },
   'r!': { type: 'consonant', value: 'r', form: 'flow', ejection: true },
+  'n~': {
+    type: 'consonant',
+    value: 'n',
+    form: 'wall',
+    dentalization: true,
+  },
   't~': {
     type: 'consonant',
     value: 't',
