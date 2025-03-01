@@ -129,6 +129,8 @@ parse('sa^kOu$')
 parse('xakiu$U')
 parse('ske^ytbou$dIq')
 
+console.log(makeTalkToIpa('Ci_'))
+
 function parse(word: string) {
   console.log(word)
   console.log(' ', parseProsody(word).join(' - '))
